@@ -36,7 +36,7 @@ namespace OpenAI
                 request.downloadHandler = new DownloadHandlerBuffer();
                 request.SendWebRequest();
 
-                while (!request.isDone) Task.Yield();
+                while (!request.isDone) await Task.Yield();
 
                 Texture2D texture = new Texture2D(2, 2);
                 texture.LoadImage(request.downloadHandler.data);
