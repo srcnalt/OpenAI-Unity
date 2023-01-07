@@ -17,5 +17,17 @@
   "author": {
     "name": "Sercan (Sarge) Altundas",
     "url": "https://github.com/srcnalt"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "ChatGPT",
+      "description": "A simple ChatGPT like chat example.",
+      "path": "Samples~/ChatGPT"
+    },
+    {
+      "displayName": "DallE",
+      "description": "A DALL.E text to image generation example.",
+      "path": "Samples~/DallE"
+    }
+  ]
 }
