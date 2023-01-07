@@ -1,0 +1,21 @@
+﻿{
+  "name": "com.srcnalt.openai-unity",
+  "version": "0.1.0",
+  "displayName": "OpenAI Unity",
+  "description": "An unofficial OpenAI Unity Package that aims to help you use OpenAI API directly in Unity Game engine.",
+  "unity": "2020.3",
+  "unityRelease": "0f1",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
+  },
+  "keywords": [
+    "openai",
+    "chatgpt",
+    "dalle",
+    "ai"
+  ],
+  "author": {
+    "name": "Sercan (Sarge) Altundas",
+    "url": "https://github.com/srcnalt"
+  }
+}
