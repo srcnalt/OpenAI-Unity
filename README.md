@@ -1,27 +1,31 @@
 ## OpenAI Unity Package
-An unofficial OpenAI Unity Package that aims to help you use OpenAI API directly in Unity Game engine.
+An unofficial Unity package that allows you to use the OpenAI API directly in the Unity game engine.
 
 ## How To Use
 
 ### Importing the Package
-In Unity 2019+ you can go to `Window > Package Manager > + > Add package from git URL` and paste the repository URL `https://github.com/srcnalt/OpenAI-Unity.git` then click on `Add` button.
+To import the package, follow these steps:
+- Open Unity 2019 or later
+- Go to `Window > Package Manager`
+- Click the `+` button and select `Add package from git URL`
+- Paste the repository URL https://github.com/srcnalt/OpenAI-Unity.git and click `Add`
 
-### Creating OpenAI Account
-To be able to use OpenAI API you will need an OpenAI account. Go to https://openai.com/api and sign up for an account.
+### Setting Up Your OpenAI Account
+To use the OpenAI API, you need to have an OpenAI account. Follow these steps to create an account and generate an API key:
 
-Once you created an account you can go to https://beta.openai.com/account/api-keys page and create a new secret key save it.
+Go to https://openai.com/api and sign up for an account
+Once you have created an account, go to https://beta.openai.com/account/api-keys
+Create a new secret key and save it
 
 ### Saving Your Credentials
-To be able to make requests to OpenAI endpoints you will need to use your API Key and optionally organization name.
+To make requests to the OpenAI API, you need to use your API key and organization name (if applicable). To avoid exposing your API key in your Unity project, you can save it in your device's local storage.
 
-To avoid keeping your API Key in your Unity project you can save it in your device's local. 
-For this purpose this package uses a json file in User directory of your device.
-To create the file to save your credentials follow the steps below.
-- Create a folder called `.openai` in your user's home directory `C:User\UserName\` for Windows and `~\` for Linux and Mac.
-- Create a file called `auth.json` in `.openai` folder.
-- Add `api_key` and optionally `organization` fields, fill their values to your json object and save it.
+To do this, follow these steps:
 
-Finally you should have `C:User\UserName\.openai\auth.json` file and the file content should look as the following.
+Create a folder called .openai in your home directory (e.g. C:User\UserName\ for Windows or ~\ for Linux or Mac)
+Create a file called auth.json in the .openai folder
+Add an api_key field and a organization field (if applicable) to the auth.json file and save it
+Here is an example of what your auth.json file should look like:
 
 ```json
 {
@@ -29,14 +33,15 @@ Finally you should have `C:User\UserName\.openai\auth.json` file and the file co
     "organization": "org-...L7W"
 }
 ```
-
-Remember that your API key is a secret! Do not share it with others or expose it in any client-side code (browsers, apps). 
-Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
-If you are going to use OpenAI for production make sure to run it on the server side.
+**IMPORTANT:** Your API key is a secret. 
+Do not share it with others or expose it in any client-side code (e.g. browsers, apps). 
+If you are using OpenAI for production, make sure to run it on the server side, where your API key can be securely loaded from an environment variable or key management service.
 
 ### Making Requests to OpenAPI
-You can create a async method to make a call to the `OpenAI` endpoints. 
-All methods are asynchronous and can be directly accessed from the `OpenAIApi` instance.
+You can use the `OpenAIApi` class to make async requests to the OpenAI API. 
+All methods are asynchronous and can be accessed directly from an instance of the `OpenAIApi` class.
+
+Here is an example of how to make a request:
 
 ```csharp
 private async void SendRequest()
@@ -51,10 +56,11 @@ private async void SendRequest()
 ```
 
 ### Sample Projects
-With this package you can find 2 sample scenes that you can import through Package Manager.
+This package includes two sample scenes that you can import via the Package Manager:
+
 - **ChatGPT sample:** A simple ChatGPT like chat example.
 - **DallE sample:** A DALL.E text to image generation example.
 
 ### Further Reading
-For further details on how to use all the request parameters please refer to OpenAI documentation.
-https://beta.openai.com/docs/api-reference/introduction
+For more information on how to use the various request parameters, 
+please refer to the OpenAI documentation: https://beta.openai.com/docs/api-reference/introduction
