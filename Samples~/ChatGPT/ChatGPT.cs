@@ -21,14 +21,14 @@ namespace OpenAI
 
         private async void SendReply()
         {
+            userInput = inputField.text;
+            Instruction += $"{userInput}\nA: ";
+            
             textArea.text = "...";
             inputField.text = "";
 
             button.enabled = false;
             inputField.enabled = false;
-
-            userInput = inputField.text;
-            Instruction += $"{userInput}\nA: ";
 
             // Complete the instruction
             var completionResponse = await openai.CreateCompletion(new CreateCompletionRequest()
