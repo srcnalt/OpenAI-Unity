@@ -39,7 +39,7 @@ namespace OpenAI
         /// <param name="payload">An optional byte array of json payload to include in the request.</param>
         /// <typeparam name="T">Response type of the request.</typeparam>
         /// <returns>A Task containing the response from the request as the specified type.</returns>
-        private async Task<T> DispatchRequest<T>(string path, HttpMethod method, byte[] payload = null)
+        private async Task<T> DispatchRequest<T>(string path, HttpMethod method, byte[] payload = null) where T: IResponse
         {
             var client = new HttpClient();
             client.SetHeaders(configuration, ContentType.ApplicationJson);
@@ -54,15 +54,15 @@ namespace OpenAI
             var response = await client.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
 
-            try
+            var data = JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+        
+            if (data?.Error != null)
             {
-                return JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+                ApiError error = data.Error;
+                throw new Exception($"Error Message: {error.Message}\nError Type: {error.Type}\n");
             }
-            catch (Exception e)
-            {
-                ApiError error = JsonConvert.DeserializeObject<ApiError>(content, jsonSerializerSettings);
-                throw new Exception($"{e.Message}\nError Message: {error.Error.Message}\nError Type: {error.Error.Type}\n");
-            }
+
+            return data;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace OpenAI
         /// <param name="form">A multi-part data form to upload with the request.</param>
         /// <typeparam name="T">Response type of the request.</typeparam>
         /// <returns>A Task containing the response from the request as the specified type.</returns>
-        private async Task<T> DispatchRequest<T>(string path, MultipartFormDataContent form)
+        private async Task<T> DispatchRequest<T>(string path, MultipartFormDataContent form) where T: IResponse
         {
             var client = new HttpClient();
             client.SetHeaders(configuration, ContentType.MultipartFormData);
@@ -80,15 +80,15 @@ namespace OpenAI
             var response = await client.PostAsync(path, form);
             var content = await response.Content.ReadAsStringAsync();
             
-            try
+            var data = JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+
+            if (data != null && data.Error != null)
             {
-                return JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+                ApiError error = data.Error;
+                throw new Exception($"Error Message: {error.Message}\nError Type: {error.Type}\n");
             }
-            catch (Exception e)
-            {
-                ApiError error = JsonConvert.DeserializeObject<ApiError>(content, jsonSerializerSettings);
-                throw new Exception($"{e.Message}\nError Message: {error.Error.Message}\nError Type: {error.Error.Type}\n");
-            }
+
+            return data;
         }
 
         /// <summary>
