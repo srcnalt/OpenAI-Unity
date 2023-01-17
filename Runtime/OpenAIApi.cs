@@ -117,10 +117,10 @@ namespace OpenAI
         /// </summary>
         /// <param name="id">The ID of the model to use for this request</param>
         /// <returns>See <see cref="Model"/></returns>
-        public async Task<Model> RetrieveModel(string id)
+        public async Task<OpenAIModel> RetrieveModel(string id)
         {
             var path = $"{BASE_PATH}/models/{id}";
-            return await DispatchRequest<Model>(path, HttpMethod.Get);
+            return await DispatchRequest<OpenAIModelResponse>(path, HttpMethod.Get);
         }
         
         /// <summary>
@@ -236,7 +236,7 @@ namespace OpenAI
             form.AddJsonl(request.File, "file");
             form.AddValue(request.Purpose, "purpose");
             
-            return await DispatchRequest<OpenAIFile>(path, form);
+            return await DispatchRequest<OpenAIFileResponse>(path, form);
         }
         
         /// <summary>
@@ -258,7 +258,7 @@ namespace OpenAI
         public async Task<OpenAIFile> RetrieveFile(string id)
         {
             var path = $"{BASE_PATH}/files/{id}";
-            return await DispatchRequest<OpenAIFile>(path, HttpMethod.Get);
+            return await DispatchRequest<OpenAIFileResponse>(path, HttpMethod.Get);
         }
         
         /// <summary>
@@ -269,7 +269,7 @@ namespace OpenAI
         public async Task<OpenAIFile> DownloadFile(string id)
         {
             var path = $"{BASE_PATH}/files/{id}/content";
-            return await DispatchRequest<OpenAIFile>(path, HttpMethod.Get);
+            return await DispatchRequest<OpenAIFileResponse>(path, HttpMethod.Get);
         }
         
         /// <summary>
@@ -282,7 +282,7 @@ namespace OpenAI
         {
             var path = $"{BASE_PATH}/fine-tunes";
             var payload = CreatePayload(request);
-            return await DispatchRequest<FineTune>(path, HttpMethod.Post, payload);
+            return await DispatchRequest<FineTuneResponse>(path, HttpMethod.Post, payload);
         }
         
         /// <summary>
@@ -303,7 +303,7 @@ namespace OpenAI
         public async Task<FineTune> RetrieveFineTune(string id)
         {
             var path = $"{BASE_PATH}/fine-tunes/{id}";
-            return await DispatchRequest<FineTune>(path, HttpMethod.Get);
+            return await DispatchRequest<FineTuneResponse>(path, HttpMethod.Get);
         }
         
         /// <summary>
@@ -314,7 +314,7 @@ namespace OpenAI
         public async Task<FineTune> CancelFineTune(string id)
         {
             var path = $"{BASE_PATH}/fine-tunes/{id}/cancel";
-            return await DispatchRequest<FineTune>(path, HttpMethod.Post);
+            return await DispatchRequest<FineTuneResponse>(path, HttpMethod.Post);
         }
         
         /// <summary>
