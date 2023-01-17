@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -26,7 +27,8 @@ namespace OpenAI
             ContractResolver = new DefaultContractResolver()
             {
                 NamingStrategy = new CustomNamingStrategy()
-            }
+            },
+            MissingMemberHandling = MissingMemberHandling.Error
         };
         
         /// <summary>
@@ -51,7 +53,16 @@ namespace OpenAI
             
             var response = await client.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+            }
+            catch (Exception e)
+            {
+                ApiError error = JsonConvert.DeserializeObject<ApiError>(content, jsonSerializerSettings);
+                throw new Exception($"{e.Message}\nError Message: {error.Error.Message}\nError Type: {error.Error.Type}\n");
+            }
         }
 
         /// <summary>
@@ -68,7 +79,16 @@ namespace OpenAI
             
             var response = await client.PostAsync(path, form);
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+            
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+            }
+            catch (Exception e)
+            {
+                ApiError error = JsonConvert.DeserializeObject<ApiError>(content, jsonSerializerSettings);
+                throw new Exception($"{e.Message}\nError Message: {error.Error.Message}\nError Type: {error.Error.Type}\n");
+            }
         }
 
         /// <summary>
