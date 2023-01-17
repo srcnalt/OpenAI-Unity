@@ -29,6 +29,18 @@ namespace OpenAI
         public object StatusDetails { get; set; }
         public string Status { get; set; }
     }
+
+    public struct ApiError
+    {
+        public struct ErrorContent
+        {
+            public string Message;
+            public string Type;
+            public object Param;
+            public object Code;
+        }
+        
+        public ErrorContent Error;
     }
     #endregion
     
