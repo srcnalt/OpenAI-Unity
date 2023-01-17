@@ -7,7 +7,7 @@ namespace OpenAI
     {
         public string Text { get; set; }
         public int? Index { get; set; }
-        public int? Logpropbs { get; set; }
+        public int? Logprobs { get; set; }
         public string FinishReason { get; set; }
     }
 
@@ -219,7 +219,7 @@ namespace OpenAI
         public long UpdatedAt { get; set; }
         public string Model { get; set; }
         public string FineTunedModel { get; set; }
-        public string OrganizationID { get; set; }
+        public string OrganizationId { get; set; }
         public string Status { get; set; }
         public Dictionary<string, object> Hyperparams { get; set; }
         public OpenAIFile[] TrainingFiles { get; set; }
