@@ -27,6 +27,8 @@ namespace OpenAI
         public string Filename { get; set; }
         public string Purpose { get; set; }
         public object StatusDetails { get; set; }
+        public string Status { get; set; }
+    }
     }
     #endregion
     
@@ -42,6 +44,9 @@ namespace OpenAI
         public string Id { get; set; }
         public string Object { get; set; }
         public string OwnedBy { get; set; }
+        public long Created { get; set; }
+        public string Root { get; set; }
+        public string Parent { get; set; }
         public Dictionary<string, object>[] Permission { get; set; }
     }
     #endregion
