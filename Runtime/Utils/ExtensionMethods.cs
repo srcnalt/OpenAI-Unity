@@ -60,11 +60,11 @@ namespace OpenAI
         /// <param name="type">The value of the Accept header for an HTTP request.</param>
         public static void SetHeaders(this HttpClient client, Configuration configuration, string type)
         {
-            if (configuration.Organization != null)
+            if (configuration.Auth.Organization != null)
             {
-                client.DefaultRequestHeaders.Add("OpenAI-Organization", configuration.Organization);
+                client.DefaultRequestHeaders.Add("OpenAI-Organization", configuration.Auth.Organization);
             }
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", configuration.ApiKey);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", configuration.Auth.ApiKey);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(type));
         }

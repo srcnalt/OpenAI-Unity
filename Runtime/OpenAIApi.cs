@@ -14,8 +14,9 @@ namespace OpenAI
         ///     Remember that your API key is a secret! Do not share it with others or expose it in any client-side code (browsers, apps).
         ///     Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
         /// </summary>
-        private readonly Configuration configuration = new Configuration();
-        
+        private Configuration configuration; 
+        private Configuration Configuration => configuration ??= new Configuration();
+
         /// OpenAI API base path for requests.
         private const string BASE_PATH = "https://api.openai.com/v1";
         
@@ -40,7 +41,7 @@ namespace OpenAI
         private async Task<T> DispatchRequest<T>(string path, HttpMethod method, byte[] payload = null)
         {
             var client = new HttpClient();
-            client.SetHeaders(configuration, ContentType.ApplicationJson);
+            client.SetHeaders(Configuration, ContentType.ApplicationJson);
             
             var request = new HttpRequestMessage(method, path);
             if (payload != null)
@@ -64,7 +65,7 @@ namespace OpenAI
         private async Task<T> DispatchRequest<T>(string path, MultipartFormDataContent form)
         {
             var client = new HttpClient();
-            client.SetHeaders(configuration, ContentType.MultipartFormData);
+            client.SetHeaders(Configuration, ContentType.MultipartFormData);
             
             var response = await client.PostAsync(path, form);
             var content = await response.Content.ReadAsStringAsync();
