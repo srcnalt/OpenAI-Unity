@@ -8,7 +8,7 @@ namespace OpenAI
     {
         public string Text { get; set; }
         public int? Index { get; set; }
-        public int? Logpropbs { get; set; }
+        public int? Logprobs { get; set; }
         public string FinishReason { get; set; }
     }
 
@@ -19,7 +19,7 @@ namespace OpenAI
         public string TotalTokens { get; set; }
     }
     
-    public struct OpenAIFile
+    public class OpenAIFile
     {
         public string Id { get; set; }
         public string Object { get; set; }
@@ -28,6 +28,20 @@ namespace OpenAI
         public string Filename { get; set; }
         public string Purpose { get; set; }
         public object StatusDetails { get; set; }
+        public string Status { get; set; }
+    }
+
+    public class OpenAIFileResponse : OpenAIFile, IResponse
+    {
+        public ApiError Error { get; set; }
+    }
+
+    public class ApiError
+    {
+        public string Message;
+        public string Type;
+        public object Param;
+        public object Code;
     }
 
     public struct Auth
@@ -39,18 +53,27 @@ namespace OpenAI
     #endregion
     
     #region Models API Data Types
-    public struct ListModelsResponse
+    public struct ListModelsResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Object { get; set; }
-        public Model[] Data { get; set; }
+        public OpenAIModel[] Data { get; set; }
     }
 
-    public struct Model
+    public class OpenAIModel
     {
         public string Id { get; set; }
         public string Object { get; set; }
         public string OwnedBy { get; set; }
+        public long Created { get; set; }
+        public string Root { get; set; }
+        public string Parent { get; set; }
         public Dictionary<string, object>[] Permission { get; set; }
+    }
+
+    public class OpenAIModelResponse : OpenAIModel, IResponse
+    {
+        public ApiError Error { get; set; }
     }
     #endregion
 
@@ -75,8 +98,9 @@ namespace OpenAI
         public string User { get; set; }
     }
 
-    public struct CreateCompletionResponse
+    public struct CreateCompletionResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Id { get; set; }
         public string Object { get; set; }
         public long Created { get; set; }
@@ -97,8 +121,9 @@ namespace OpenAI
         public int? N { get; set; } = 1;
     }
     
-    public struct CreateEditResponse
+    public struct CreateEditResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Object { get; set; }
         public long Created { get; set; }
         public Choice[] Choices { get; set; }
@@ -132,8 +157,9 @@ namespace OpenAI
         public string Image { get; set; }
     }
 
-    public struct CreateImageResponse
+    public struct CreateImageResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public long Created { get; set; }
         public ImageData[] Data { get; set; }
     }
@@ -153,8 +179,9 @@ namespace OpenAI
         public string User { get; set; }
     }
 
-    public struct CreateEmbeddingsResponse
+    public struct CreateEmbeddingsResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Object { get; set; }
         public EmbeddingData[] Data;
         public string Model { get; set; }
@@ -170,14 +197,16 @@ namespace OpenAI
     #endregion
 
     #region Files API Data Types
-    public struct ListFilesResponse
+    public struct ListFilesResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Object { get; set; }
         public OpenAIFile[] Data { get; set; }
     }
 
-    public struct DeleteResponse
+    public struct DeleteResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Id { get; set; }
         public string Object { get; set; }
         public bool Deleted { get; set; }
@@ -207,19 +236,21 @@ namespace OpenAI
         public string Suffix { get; set; }
     }
 
-    public struct ListFineTunesResponse
+    public struct ListFineTunesResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Object { get; set; }
         public FineTune[] Data { get; set; }
     }
     
-    public struct ListFineTuneEventsResponse
+    public struct ListFineTuneEventsResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Object { get; set; }
         public FineTuneEvent[] Data { get; set; }
     }
     
-    public struct FineTune
+    public class FineTune
     {
         public string Id { get; set; }
         public string Object { get; set; }
@@ -227,13 +258,18 @@ namespace OpenAI
         public long UpdatedAt { get; set; }
         public string Model { get; set; }
         public string FineTunedModel { get; set; }
-        public string OrganizationID { get; set; }
+        public string OrganizationId { get; set; }
         public string Status { get; set; }
         public Dictionary<string, object> Hyperparams { get; set; }
         public OpenAIFile[] TrainingFiles { get; set; }
         public OpenAIFile[] ValidationFiles { get; set; }
         public OpenAIFile[] ResultFiles { get; set; }
         public FineTuneEvent[] Events { get; set; }
+    }
+
+    public class FineTuneResponse : FineTune, IResponse
+    {
+        public ApiError Error { get; set; }
     }
 
     public struct FineTuneEvent
@@ -252,8 +288,9 @@ namespace OpenAI
         public string Model { get; set; } = ModerationModel.Latest;
     }
     
-    public struct CreateModerationResponse
+    public struct CreateModerationResponse: IResponse
     {
+        public ApiError Error { get; set; }
         public string Id { get; set; }
         public string Model { get; set; }
         public ModerationResult[] Results { get; set; }
