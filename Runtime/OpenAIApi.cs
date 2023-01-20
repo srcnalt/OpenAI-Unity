@@ -15,8 +15,20 @@ namespace OpenAI
         ///     Remember that your API key is a secret! Do not share it with others or expose it in any client-side code (browsers, apps).
         ///     Production requests must be routed through your own backend server where your API key can be securely loaded from an environment variable or key management service.
         /// </summary>
-        private Configuration configuration; 
-        private Configuration Configuration => configuration ??= new Configuration();
+        private Configuration configuration;
+
+        private Configuration Configuration
+        {
+            get
+            {
+                if (configuration == null)
+                {
+                    configuration = new Configuration();
+                }
+
+                return configuration;
+            }
+        }
 
         /// OpenAI API base path for requests.
         private const string BASE_PATH = "https://api.openai.com/v1";
