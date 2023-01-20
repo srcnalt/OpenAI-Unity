@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace OpenAI
 {
@@ -41,6 +42,13 @@ namespace OpenAI
         public string Type;
         public object Param;
         public object Code;
+    }
+
+    public struct Auth
+    {
+        [JsonRequired]
+        public string ApiKey { get; set; }
+        public string Organization { get; set; }
     }
     #endregion
     

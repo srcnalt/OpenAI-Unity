@@ -51,7 +51,7 @@ private async void SendRequest()
     var request = new CreateCompletionRequest{
         Model="text-davinci-003",
         Prompt="Say this is a test",
-    }
+    };
     var response = await openai.CreateCompletion(request);
 }
 ```
