@@ -32,16 +32,18 @@ namespace OpenAI
 
             if (response.Data != null)
             {
-                using var request = new UnityWebRequest(response.Data[0].Url);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SendWebRequest();
+                using(var request = new UnityWebRequest(response.Data[0].Url))
+                {
+                    request.downloadHandler = new DownloadHandlerBuffer();
+                    request.SendWebRequest();
 
-                while (!request.isDone) await Task.Yield();
+                    while (!request.isDone) await Task.Yield();
 
-                Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(request.downloadHandler.data);
-                var sprite = Sprite.Create(texture, new Rect(0, 0, 256, 256), Vector2.zero, 1f);
-                image.sprite = sprite;
+                    Texture2D texture = new Texture2D(2, 2);
+                    texture.LoadImage(request.downloadHandler.data);
+                    var sprite = Sprite.Create(texture, new Rect(0, 0, 256, 256), Vector2.zero, 1f);
+                    image.sprite = sprite;
+                }
             }
             else
             {
