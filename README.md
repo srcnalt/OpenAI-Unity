@@ -56,6 +56,12 @@ private async void SendRequest()
 }
 ```
 
+You can also pass your API key into OpenAIApi ctor when creating an instance of it but again, this is not recommended!
+
+```csharp
+var openai = new OpenAIApi("sk-Me8...6yi");
+```
+
 ### Sample Projects
 This package includes two sample scenes that you can import via the Package Manager:
 
