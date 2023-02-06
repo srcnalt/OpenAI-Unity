@@ -35,7 +35,10 @@ namespace OpenAI
 
         public OpenAIApi(string apiKey = null, string organization = null)
         {
-            configuration = new Configuration(apiKey, organization);
+            if (apiKey != null)
+            {
+                configuration = new Configuration(apiKey, organization);
+            }
         }
         
         /// Used for serializing and deserializing PascalCase request object fields into snake_case format for JSON. Ignores null fields when creating JSON strings.
