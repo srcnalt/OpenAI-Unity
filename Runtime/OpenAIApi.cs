@@ -32,6 +32,11 @@ namespace OpenAI
 
         /// OpenAI API base path for requests.
         private const string BASE_PATH = "https://api.openai.com/v1";
+
+        public OpenAIApi(string apiKey = null, string organization = null)
+        {
+            configuration = new Configuration(apiKey, organization);
+        }
         
         /// Used for serializing and deserializing PascalCase request object fields into snake_case format for JSON. Ignores null fields when creating JSON strings.
         private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()

@@ -20,19 +20,30 @@ namespace OpenAI
             }
         };
         
-        public Configuration()
+        public Configuration(string apiKey = null, string organization = null)
         {
-            var userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var authPath = $"{userPath}/.openai/auth.json";
-
-            if (File.Exists(authPath))
+            if (apiKey == null)
             {
-                var json = File.ReadAllText(authPath);
-                Auth = JsonConvert.DeserializeObject<Auth>(json, jsonSerializerSettings);
+                var userPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var authPath = $"{userPath}/.openai/auth.json";
+
+                if (File.Exists(authPath))
+                {
+                    var json = File.ReadAllText(authPath);
+                    Auth = JsonConvert.DeserializeObject<Auth>(json, jsonSerializerSettings);
+                }
+                else
+                {
+                    Debug.LogError($"auth.json does not exist. Please check https://github.com/srcnalt/OpenAI-Unity#saving-your-credentials");
+                }
             }
             else
             {
-                Debug.LogError($"auth.json does not exist. Please check https://github.com/srcnalt/OpenAI-Unity#saving-your-credentials");
+                Auth = new Auth()
+                {
+                    ApiKey = apiKey,
+                    Organization = organization
+                };
             }
         }
     }
