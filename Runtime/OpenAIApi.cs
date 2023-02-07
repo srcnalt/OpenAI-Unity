@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Serialization;
+using UnityEngine.Networking;
 
 namespace OpenAI
 {
@@ -62,27 +64,26 @@ namespace OpenAI
         /// <returns>A Task containing the response from the request as the specified type.</returns>
         private async Task<T> DispatchRequest<T>(string path, HttpMethod method, byte[] payload = null) where T: IResponse
         {
-            var client = new HttpClient();
-            client.SetHeaders(Configuration, ContentType.ApplicationJson);
+            T data;
             
-            var request = new HttpRequestMessage(method, path);
-            if (payload != null)
+            using (var request = UnityWebRequest.Put(path, payload))
             {
-                request.Content = new ByteArrayContent(payload);
-                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                request.method = method.Method;
+                request.SetHeaders(Configuration, "application/json");
+                
+                var asyncOperation = request.SendWebRequest();
+
+                while (!asyncOperation.isDone) await Task.Yield();
+                
+                data = JsonConvert.DeserializeObject<T>(request.downloadHandler.text, jsonSerializerSettings);
             }
             
-            var response = await client.SendAsync(request);
-            var content = await response.Content.ReadAsStringAsync();
-
-            var data = JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
-        
             if (data?.Error != null)
             {
                 ApiError error = data.Error;
                 throw new Exception($"Error Message: {error.Message}\nError Type: {error.Type}\n");
             }
-
+            
             return data;
         }
 
@@ -93,22 +94,27 @@ namespace OpenAI
         /// <param name="form">A multi-part data form to upload with the request.</param>
         /// <typeparam name="T">Response type of the request.</typeparam>
         /// <returns>A Task containing the response from the request as the specified type.</returns>
-        private async Task<T> DispatchRequest<T>(string path, MultipartFormDataContent form) where T: IResponse
+        private async Task<T> DispatchRequest<T>(string path, List<IMultipartFormSection> form) where T: IResponse
         {
-            var client = new HttpClient();
-            client.SetHeaders(Configuration, ContentType.MultipartFormData);
+            T data;
             
-            var response = await client.PostAsync(path, form);
-            var content = await response.Content.ReadAsStringAsync();
-            
-            var data = JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+            using (var request = UnityWebRequest.Post(path, form))
+            {
+                request.SetHeaders(Configuration, "multipart/form-data");
+                
+                var asyncOperation = request.SendWebRequest();
 
-            if (data != null && data.Error != null)
+                while (!asyncOperation.isDone) await Task.Yield();
+                
+                data = JsonConvert.DeserializeObject<T>(request.downloadHandler.text, jsonSerializerSettings);
+            }
+            
+            if (data?.Error != null)
             {
                 ApiError error = data.Error;
                 throw new Exception($"Error Message: {error.Message}\nError Type: {error.Type}\n");
             }
-
+            
             return data;
         }
 
@@ -189,7 +195,7 @@ namespace OpenAI
         {
             var path = $"{BASE_PATH}/images/edits";
             
-            var form = new MultipartFormDataContent();
+            var form = new List<IMultipartFormSection>();
             form.AddImage(request.Image, "image");
             form.AddImage(request.Mask, "mask");
             form.AddValue(request.Prompt, "prompt");
@@ -210,7 +216,7 @@ namespace OpenAI
         {
             var path = $"{BASE_PATH}/images/variations";
             
-            var form = new MultipartFormDataContent();
+            var form = new List<IMultipartFormSection>();
             form.AddImage(request.Image, "image");
             form.AddValue(request.N, "n");
             form.AddValue(request.Size, "size");
@@ -253,7 +259,7 @@ namespace OpenAI
         {
             var path = $"{BASE_PATH}/files";
             
-            var form = new MultipartFormDataContent();
+            var form = new List<IMultipartFormSection>();
             form.AddJsonl(request.File, "file");
             form.AddValue(request.Purpose, "purpose");
             
