@@ -38,8 +38,15 @@ namespace OpenAI
                 MaxTokens = 128
             });
 
-            textArea.text = completionResponse.Choices[0].Text;
-            Instruction += $"{completionResponse.Choices[0].Text}\nQ: ";
+            if (completionResponse.Choices != null && completionResponse.Choices.Length > 0)
+            {
+                textArea.text = completionResponse.Choices[0].Text;
+                Instruction += $"{completionResponse.Choices[0].Text}\nQ: ";
+            }
+            else
+            {
+                Debug.LogWarning("No text was generated from this prompt.");
+            }
 
             button.enabled = true;
             inputField.enabled = true;

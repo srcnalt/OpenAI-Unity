@@ -30,7 +30,7 @@ namespace OpenAI
                 Size = ImageSize.Size256
             });
 
-            if (response.Data != null)
+            if (response.Data != null && response.Data.Length > 0)
             {
                 using(var request = new UnityWebRequest(response.Data[0].Url))
                 {
