@@ -11,7 +11,7 @@ namespace OpenAI.Tests
         public async Task List_Models()
         {
             var models = await openai.ListModels();
-            Assert.Greater(models.Data.Length, 0);
+            Assert.Greater(models.Data.Count, 0);
         }
 
         [Test]

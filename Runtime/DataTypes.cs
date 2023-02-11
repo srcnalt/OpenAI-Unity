@@ -57,7 +57,7 @@ namespace OpenAI
     {
         public ApiError Error { get; set; }
         public string Object { get; set; }
-        public OpenAIModel[] Data { get; set; }
+        public List<OpenAIModel> Data { get; set; }
     }
 
     public class OpenAIModel
@@ -68,7 +68,7 @@ namespace OpenAI
         public long Created { get; set; }
         public string Root { get; set; }
         public string Parent { get; set; }
-        public Dictionary<string, object>[] Permission { get; set; }
+        public List<Dictionary<string, object>> Permission { get; set; }
     }
 
     public class OpenAIModelResponse : OpenAIModel, IResponse
@@ -105,7 +105,7 @@ namespace OpenAI
         public string Object { get; set; }
         public long Created { get; set; }
         public string Model { get; set; }
-        public Choice[] Choices { get; set; }
+        public List<Choice> Choices { get; set; }
         public Usage Usage { get; set; }
     }
     #endregion
@@ -126,7 +126,7 @@ namespace OpenAI
         public ApiError Error { get; set; }
         public string Object { get; set; }
         public long Created { get; set; }
-        public Choice[] Choices { get; set; }
+        public List<Choice> Choices { get; set; }
         public Usage Usage { get; set; }
     }
     #endregion
@@ -161,7 +161,7 @@ namespace OpenAI
     {
         public ApiError Error { get; set; }
         public long Created { get; set; }
-        public ImageData[] Data { get; set; }
+        public List<ImageData> Data { get; set; }
     }
 
     public struct ImageData
@@ -183,7 +183,7 @@ namespace OpenAI
     {
         public ApiError Error { get; set; }
         public string Object { get; set; }
-        public EmbeddingData[] Data;
+        public List<EmbeddingData> Data;
         public string Model { get; set; }
         public Usage Usage { get; set; }
     }
@@ -191,7 +191,7 @@ namespace OpenAI
     public struct EmbeddingData
     {
         public string Object  { get; set; }
-        public float[] Embedding { get; set; }
+        public List<float> Embedding { get; set; }
         public int Index { get; set; }
     }
     #endregion
@@ -201,7 +201,7 @@ namespace OpenAI
     {
         public ApiError Error { get; set; }
         public string Object { get; set; }
-        public OpenAIFile[] Data { get; set; }
+        public List<OpenAIFile> Data { get; set; }
     }
 
     public struct DeleteResponse: IResponse
@@ -232,7 +232,7 @@ namespace OpenAI
         public bool ComputeClassificationMetrics { get; set; } = false;
         public int? ClassificationNClasses { get; set; } = null;
         public string ClassificationPositiveClass { get; set; }
-        public float[] ClassificationBetas { get; set; }
+        public List<float> ClassificationBetas { get; set; }
         public string Suffix { get; set; }
     }
 
@@ -240,14 +240,14 @@ namespace OpenAI
     {
         public ApiError Error { get; set; }
         public string Object { get; set; }
-        public FineTune[] Data { get; set; }
+        public List<FineTune> Data { get; set; }
     }
     
     public struct ListFineTuneEventsResponse: IResponse
     {
         public ApiError Error { get; set; }
         public string Object { get; set; }
-        public FineTuneEvent[] Data { get; set; }
+        public List<FineTuneEvent> Data { get; set; }
     }
     
     public class FineTune
@@ -261,10 +261,10 @@ namespace OpenAI
         public string OrganizationId { get; set; }
         public string Status { get; set; }
         public Dictionary<string, object> Hyperparams { get; set; }
-        public OpenAIFile[] TrainingFiles { get; set; }
-        public OpenAIFile[] ValidationFiles { get; set; }
-        public OpenAIFile[] ResultFiles { get; set; }
-        public FineTuneEvent[] Events { get; set; }
+        public List<OpenAIFile> TrainingFiles { get; set; }
+        public List<OpenAIFile> ValidationFiles { get; set; }
+        public List<OpenAIFile> ResultFiles { get; set; }
+        public List<FineTuneEvent> Events { get; set; }
     }
 
     public class FineTuneResponse : FineTune, IResponse
@@ -293,7 +293,7 @@ namespace OpenAI
         public ApiError Error { get; set; }
         public string Id { get; set; }
         public string Model { get; set; }
-        public ModerationResult[] Results { get; set; }
+        public List<ModerationResult> Results { get; set; }
     }
 
     public struct ModerationResult
