@@ -35,6 +35,7 @@ namespace OpenAI
                 using(var request = new UnityWebRequest(response.Data[0].Url))
                 {
                     request.downloadHandler = new DownloadHandlerBuffer();
+                    request.SetRequestHeader("Access-Control-Allow-Origin", "*");
                     request.SendWebRequest();
 
                     while (!request.isDone) await Task.Yield();

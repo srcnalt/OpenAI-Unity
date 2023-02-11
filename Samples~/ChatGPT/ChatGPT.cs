@@ -29,7 +29,7 @@ namespace OpenAI
 
             button.enabled = false;
             inputField.enabled = false;
-
+            
             // Complete the instruction
             var completionResponse = await openai.CreateCompletion(new CreateCompletionRequest()
             {
