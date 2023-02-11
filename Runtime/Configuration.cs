@@ -34,7 +34,7 @@ namespace OpenAI
                 }
                 else
                 {
-                    Debug.LogError($"auth.json does not exist. Please check https://github.com/srcnalt/OpenAI-Unity#saving-your-credentials");
+                    Debug.LogError("API Key is null and auth.json does not exist. Please check https://github.com/srcnalt/OpenAI-Unity#saving-your-credentials");
                 }
             }
             else
