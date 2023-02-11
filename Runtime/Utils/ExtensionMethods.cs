@@ -1,13 +1,17 @@
-using System.Collections.Generic;
 using System.IO;
+using UnityEngine.Networking;
+
+#if !UNITY_WEBGL
 using System.Net.Http;
 using System.Net.Http.Headers;
-using UnityEngine.Networking;
+using UnityEngine;
+#endif
 
 namespace OpenAI
 {
     public static class ExtensionMethods
     {
+        #if !UNITY_WEBGL
         /// <summary>
         ///     Read a PNG file and add it to this form.
         /// </summary>
@@ -54,35 +58,6 @@ namespace OpenAI
             }
         }
         
-        // TODO: summary
-        public static void AddValue(this List<IMultipartFormSection> form, object value, string name)
-        {
-            if (value != null)
-            {
-                form.Add(new MultipartFormDataSection(value.ToString(), name));
-            }
-        }
-        
-        // TODO: summary
-        public static void AddImage(this List<IMultipartFormSection> form, string path, string name)
-        {
-            if (path != null)
-            {
-                var bytes = File.ReadAllBytes(path);
-                form.Add(new MultipartFormFileSection(name, bytes, $"{name}.png", "image/png"));
-            }
-        }
-        
-        // TODO: summary
-        public static void AddJsonl(this List<IMultipartFormSection> form, string path, string name)
-        {
-            if (path != null)
-            {
-                var bytes = File.ReadAllBytes(path);
-                form.Add(new MultipartFormFileSection(name, bytes, $"{name}.jsonl", "application/jsonl"));
-            }
-        }
-
         /// <summary>
         ///     Set headers of the HTTP request with user credentials.
         /// </summary>
@@ -99,13 +74,17 @@ namespace OpenAI
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(type));
         }
+        #endif
 
         // TODO: summary
         public static void SetHeaders(this UnityWebRequest request, Configuration configuration, string type)
         {
-            request.SetRequestHeader("Content-Type", type);
-            request.SetRequestHeader("OpenAI-Organization", configuration.Auth.Organization);
+            if (configuration.Auth.Organization != null)
+            {
+                request.SetRequestHeader("OpenAI-Organization", configuration.Auth.Organization);
+            }
             request.SetRequestHeader("Authorization", "Bearer " + configuration.Auth.ApiKey);
+            request.SetRequestHeader("Content-Type", type);
         }
     }
 }
