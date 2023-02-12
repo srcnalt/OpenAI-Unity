@@ -16,7 +16,7 @@ namespace OpenAI.Tests
                 Input="The food was delicious and the waiter..."
             };
             var res = await openai.CreateEmbeddings(req);
-            Assert.Greater(res.Data.Length, 0);
+            Assert.Greater(res.Data.Count, 0);
         }
     }
 }

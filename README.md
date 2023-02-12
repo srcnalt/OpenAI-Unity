@@ -33,6 +33,13 @@ To do this, follow these steps:
     "organization": "org-...L7W"
 }
 ```
+
+You can also pass your API key into `OpenAIApi` ctor when creating an instance of it but again, this is not recommended!
+
+```csharp
+var openai = new OpenAIApi("sk-Me8...6yi");
+```
+
 **IMPORTANT:** Your API key is a secret. 
 Do not share it with others or expose it in any client-side code (e.g. browsers, apps). 
 If you are using OpenAI for production, make sure to run it on the server side, where your API key can be securely loaded from an environment variable or key management service.
@@ -56,17 +63,19 @@ private async void SendRequest()
 }
 ```
 
-You can also pass your API key into OpenAIApi ctor when creating an instance of it but again, this is not recommended!
-
-```csharp
-var openai = new OpenAIApi("sk-Me8...6yi");
-```
-
 ### Sample Projects
 This package includes two sample scenes that you can import via the Package Manager:
 
 - **ChatGPT sample:** A simple ChatGPT like chat example.
 - **DallE sample:** A DALL.E text to image generation example.
+
+### Known Issues
+- **Some Endpoints are not available in WebGL Project:** Some of the endpoints such as image edits, image variations, file and fine tune creations depend on multipart form uploads, 
+and UnityWebRequests with forms does not work as expected. For that reason C# Net.Http library is used however usage of the
+library is blocked in WebGL due to security reasons.
+
+- **Can't See the Image Result in WebGL Builds:** Due to CORS policy of OpenAI image storage in local WebGL builds you will get the generated image's URL however it will not be
+downloaded using UnityWebRequest until you run it out of localhost, on a server.
 
 ### Further Reading
 For more information on how to use the various request parameters, 

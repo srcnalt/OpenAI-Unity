@@ -1,11 +1,17 @@
 using System.IO;
+using UnityEngine.Networking;
+
+#if !UNITY_WEBGL
 using System.Net.Http;
 using System.Net.Http.Headers;
+using UnityEngine;
+#endif
 
 namespace OpenAI
 {
     public static class ExtensionMethods
     {
+        #if !UNITY_WEBGL
         /// <summary>
         ///     Read a PNG file and add it to this form.
         /// </summary>
@@ -51,7 +57,7 @@ namespace OpenAI
                 form.Add(new StringContent(value.ToString()), name);
             }
         }
-
+        
         /// <summary>
         ///     Set headers of the HTTP request with user credentials.
         /// </summary>
@@ -67,6 +73,18 @@ namespace OpenAI
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", configuration.Auth.ApiKey);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(type));
+        }
+        #endif
+
+        // TODO: summary
+        public static void SetHeaders(this UnityWebRequest request, Configuration configuration, string type)
+        {
+            if (configuration.Auth.Organization != null)
+            {
+                request.SetRequestHeader("OpenAI-Organization", configuration.Auth.Organization);
+            }
+            request.SetRequestHeader("Authorization", "Bearer " + configuration.Auth.ApiKey);
+            request.SetRequestHeader("Content-Type", type);
         }
     }
 }

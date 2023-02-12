@@ -13,6 +13,12 @@ namespace OpenAI.Tests
         
         // Unity Test Framework 1.3.2 does not have async OneTimeSetup and OneTimeTearDown methods.
         
+        private async Task DeleteTrainingFile()
+        {
+            await openai.DeleteFile(trainingFileId);
+        }
+
+        #if !UNITY_WEBGL
         private async Task CreateTrainingFile()
         {
             var req = new CreateFileRequest
@@ -22,11 +28,6 @@ namespace OpenAI.Tests
             };
             var file = await openai.CreateFile(req);
             trainingFileId = file.Id;
-        }
-
-        private async Task DeleteTrainingFile()
-        {
-            await openai.DeleteFile(trainingFileId);
         }
 
         [Test, Order(0)]
@@ -47,20 +48,6 @@ namespace OpenAI.Tests
             await DeleteTrainingFile();
         }
         
-        [Test, Order(1)]
-        public async Task List_FineTunes()
-        {
-            var fineTunes = await openai.ListFineTunes();
-            Assert.Greater(fineTunes.Data.Length, 0);
-        }
-        
-        [Test, Order(2)]
-        public async Task Retrieve_FineTune()
-        {
-            var res = await openai.RetrieveFineTune(createdFineTuneId);
-            Assert.AreEqual(createdFineTuneId, res.Id);
-        }
-        
         [Test, Order(3)]
         public async Task Cancel_FineTune()
         {
@@ -78,12 +65,27 @@ namespace OpenAI.Tests
 
             await DeleteTrainingFile();
         }
+        #endif
+
+        [Test, Order(1)]
+        public async Task List_FineTunes()
+        {
+            var fineTunes = await openai.ListFineTunes();
+            Assert.Greater(fineTunes.Data.Count, 0);
+        }
+        
+        [Test, Order(2)]
+        public async Task Retrieve_FineTune()
+        {
+            var res = await openai.RetrieveFineTune(createdFineTuneId);
+            Assert.AreEqual(createdFineTuneId, res.Id);
+        }
         
         [Test, Order(4)]
         public async Task List_FineTune_Events()
         {
             var res = await openai.ListFineTuneEvents(createdFineTuneId);
-            Assert.Greater(res.Data.Length, 0);
+            Assert.Greater(res.Data.Count, 0);
         }
         
         [Test, Order(5)]
