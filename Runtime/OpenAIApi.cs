@@ -1,10 +1,10 @@
 using System;
+using UnityEngine;
 using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using Newtonsoft.Json.Serialization;
-using UnityEngine;
 
 #if !UNITY_WEBGL
 using System.Net.Http;
@@ -77,15 +77,13 @@ namespace OpenAI
 
                 while (!asyncOperation.isDone) await Task.Yield();
                 
-                Debug.Log(request.downloadHandler.text);
-                
                 data = JsonConvert.DeserializeObject<T>(request.downloadHandler.text, jsonSerializerSettings);
             }
             
             if (data?.Error != null)
             {
                 ApiError error = data.Error;
-                throw new Exception($"Error Message: {error.Message}\nError Type: {error.Type}\n");
+                Debug.LogError($"Error Message: {error.Message}\nError Type: {error.Type}\n");
             }
             
             return data;

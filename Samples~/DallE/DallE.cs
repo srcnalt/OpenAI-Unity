@@ -10,8 +10,9 @@ namespace OpenAI
         [SerializeField] private InputField inputField;
         [SerializeField] private Button button;
         [SerializeField] private Image image;
+        [SerializeField] private GameObject loadingLabel;
 
-        private OpenAIApi openai = new OpenAIApi();
+        private OpenAIApi openai = new OpenAIApi("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");
 
         private void Start()
         {
@@ -23,6 +24,7 @@ namespace OpenAI
             image.sprite = null;
             button.enabled = false;
             inputField.enabled = false;
+            loadingLabel.SetActive(true);
 
             var response = await openai.CreateImage(new CreateImageRequest
             {
@@ -30,7 +32,7 @@ namespace OpenAI
                 Size = ImageSize.Size256
             });
 
-            if (response.Data != null && response.Data.Length > 0)
+            if (response.Data != null && response.Data.Count > 0)
             {
                 using(var request = new UnityWebRequest(response.Data[0].Url))
                 {
@@ -53,6 +55,7 @@ namespace OpenAI
 
             button.enabled = true;
             inputField.enabled = true;
+            loadingLabel.SetActive(false);
         }
     }
 }

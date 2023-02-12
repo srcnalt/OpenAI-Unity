@@ -38,7 +38,7 @@ namespace OpenAI
                 MaxTokens = 128
             });
 
-            if (completionResponse.Choices != null && completionResponse.Choices.Length > 0)
+            if (completionResponse.Choices != null && completionResponse.Choices.Count > 0)
             {
                 textArea.text = completionResponse.Choices[0].Text;
                 Instruction += $"{completionResponse.Choices[0].Text}\nQ: ";
