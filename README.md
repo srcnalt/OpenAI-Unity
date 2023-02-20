@@ -70,10 +70,6 @@ This package includes two sample scenes that you can import via the Package Mana
 - **DallE sample:** A DALL.E text to image generation example.
 
 ### Known Issues
-- **Some Endpoints are not available in WebGL Project:** Some of the endpoints such as image edits, image variations, file and fine tune creations depend on multipart form uploads, 
-and UnityWebRequests with forms does not work as expected. For that reason C# Net.Http library is used however usage of the
-library is blocked in WebGL due to security reasons.
-
 - **Can't See the Image Result in WebGL Builds:** Due to CORS policy of OpenAI image storage in local WebGL builds you will get the generated image's URL however it will not be
 downloaded using UnityWebRequest until you run it out of localhost, on a server.
 
