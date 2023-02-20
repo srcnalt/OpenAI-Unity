@@ -20,9 +20,7 @@ namespace OpenAI.Tests
             var res = await openai.CreateImage(req);
             Assert.NotNull(res.Data);
         }
-
         
-        #if !UNITY_WEBGL
         [Test]
         public async Task Create_Image_Edit()
         {
@@ -50,6 +48,5 @@ namespace OpenAI.Tests
             var res = await openai.CreateImageVariation(req);
             Assert.NotNull(res.Data);
         }
-        #endif
     }
 }

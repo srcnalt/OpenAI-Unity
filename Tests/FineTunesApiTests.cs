@@ -18,7 +18,6 @@ namespace OpenAI.Tests
             await openai.DeleteFile(trainingFileId);
         }
 
-        #if !UNITY_WEBGL
         private async Task CreateTrainingFile()
         {
             var req = new CreateFileRequest
@@ -65,7 +64,6 @@ namespace OpenAI.Tests
 
             await DeleteTrainingFile();
         }
-        #endif
 
         [Test, Order(1)]
         public async Task List_FineTunes()

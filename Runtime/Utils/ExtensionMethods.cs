@@ -1,90 +1,74 @@
 using System.IO;
 using UnityEngine.Networking;
-
-#if !UNITY_WEBGL
-using System.Net.Http;
-using System.Net.Http.Headers;
-using UnityEngine;
-#endif
+using System.Collections.Generic;
 
 namespace OpenAI
 {
     public static class ExtensionMethods
     {
-        #if !UNITY_WEBGL
         /// <summary>
         ///     Read a PNG file and add it to this form.
         /// </summary>
-        /// <param name="form">This form.</param>
+        /// <param name="form">List of multipart form sections.</param>
         /// <param name="path">Path of the file to read.</param>
         /// <param name="name">Name of the form field.</param>
-        public static void AddImage(this MultipartFormDataContent form, string path, string name)
+        public static void AddImage(this List<IMultipartFormSection> form, string path, string name)
         {
             if (path != null)
             {
-                var imageContent = new ByteArrayContent(File.ReadAllBytes(path));
-                imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/png");
-                form.Add(imageContent, name, $"{name}.png");
+                var data = File.ReadAllBytes(path);
+                var fileName = Path.GetFileName(path);
+                form.Add(new MultipartFormFileSection(name, data, fileName, "image/png"));
             }
         }
         
         /// <summary>
         ///     Read a JSONL file and add it to this form.
         /// </summary>
-        /// <param name="form">This form.</param>
+        /// <param name="form">List of multipart form sections.</param>
         /// <param name="path">Path of the file to read.</param>
         /// <param name="name">Name of the form field.</param>
-        public static void AddJsonl(this MultipartFormDataContent form, string path, string name)
+        public static void AddJsonl(this List<IMultipartFormSection> form, string path, string name)
         {
             if (path != null)
             {
-                var fileContent = new ByteArrayContent(File.ReadAllBytes(path));
-                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                form.Add(fileContent, name, Path.GetFileName(path));
+                var data = File.ReadAllBytes(path);
+                var fileName = Path.GetFileName(path);
+                form.Add(new MultipartFormFileSection(name, data, fileName, "application/json"));
             }
         }
         
         /// <summary>
         ///     Add a primitive value to the form.
         /// </summary>
-        /// <param name="form">This form.</param>
+        /// <param name="form">List of multipart form sections.</param>
         /// <param name="value">Value of the form field.</param>
         /// <param name="name">Name of the form field.</param>
-        public static void AddValue(this MultipartFormDataContent form, object value, string name)
+        public static void AddValue(this List<IMultipartFormSection> form, object value, string name)
         {
             if (value != null)
             {
-                form.Add(new StringContent(value.ToString()), name);
+                form.Add(new MultipartFormDataSection(name, value.ToString()));
             }
         }
         
         /// <summary>
         ///     Set headers of the HTTP request with user credentials.
         /// </summary>
-        /// <param name="client">this HttpClient</param>
+        /// <param name="request">this UnityWebRequest</param>
         /// <param name="configuration">Configuration file that contains user credentials.</param>
         /// <param name="type">The value of the Accept header for an HTTP request.</param>
-        public static void SetHeaders(this HttpClient client, Configuration configuration, string type)
-        {
-            if (configuration.Auth.Organization != null)
-            {
-                client.DefaultRequestHeaders.Add("OpenAI-Organization", configuration.Auth.Organization);
-            }
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", configuration.Auth.ApiKey);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(type));
-        }
-        #endif
-
-        // TODO: summary
-        public static void SetHeaders(this UnityWebRequest request, Configuration configuration, string type)
+        public static void SetHeaders(this UnityWebRequest request, Configuration configuration, string type = null)
         {
             if (configuration.Auth.Organization != null)
             {
                 request.SetRequestHeader("OpenAI-Organization", configuration.Auth.Organization);
             }
+            if (type != null)
+            {
+                request.SetRequestHeader("Content-Type", type);
+            }
             request.SetRequestHeader("Authorization", "Bearer " + configuration.Auth.ApiKey);
-            request.SetRequestHeader("Content-Type", type);
         }
     }
 }

@@ -8,9 +8,7 @@ namespace OpenAI.Tests
     {
         private OpenAIApi openai = new OpenAIApi();
         private string createdFileId;
-
         
-        #if !UNITY_WEBGL
         [Test, Order(0)]
         public async Task Create_File()
         {
@@ -24,7 +22,6 @@ namespace OpenAI.Tests
 
             createdFileId = file.Id;
         }
-        #endif
         
         [Test, Order(1)]
         public async Task List_Files()

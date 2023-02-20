@@ -3,11 +3,8 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
-
-#if !UNITY_WEBGL
-using System.Net.Http;
-#endif
 
 namespace OpenAI
 {
@@ -88,7 +85,6 @@ namespace OpenAI
             return data;
         }
 
-        #if !UNITY_WEBGL
         /// <summary>
         ///     Dispatches an HTTP request to the specified path with a multi-part data form.
         /// </summary>
@@ -96,16 +92,25 @@ namespace OpenAI
         /// <param name="form">A multi-part data form to upload with the request.</param>
         /// <typeparam name="T">Response type of the request.</typeparam>
         /// <returns>A Task containing the response from the request as the specified type.</returns>
-        private async Task<T> DispatchRequest<T>(string path, MultipartFormDataContent form) where T: IResponse
+        private async Task<T> DispatchRequest<T>(string path, List<IMultipartFormSection> form) where T: IResponse
         {
-            var client = new HttpClient();
-            client.SetHeaders(Configuration, ContentType.MultipartFormData);
+            T data;
             
-            var response = await client.PostAsync(path, form);
-            var content = await response.Content.ReadAsStringAsync();
-            
-            var data = JsonConvert.DeserializeObject<T>(content, jsonSerializerSettings);
+            using (var request = new UnityWebRequest(path, "POST"))
+            {
+                request.SetHeaders(Configuration);
+                var boundary = UnityWebRequest.GenerateBoundary();
+                var formSections = UnityWebRequest.SerializeFormSections(form, boundary);
+                var contentType = $"{ContentType.MultipartFormData}; boundary={Encoding.UTF8.GetString(boundary)}";
+                request.uploadHandler = new UploadHandlerRaw(formSections) {contentType = contentType};
+                request.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
+                var asyncOperation = request.SendWebRequest();
 
+                while (!asyncOperation.isDone) await Task.Yield();
+                
+                data = JsonConvert.DeserializeObject<T>(request.downloadHandler.text, jsonSerializerSettings);
+            }
+            
             if (data != null && data.Error != null)
             {
                 ApiError error = data.Error;
@@ -114,7 +119,6 @@ namespace OpenAI
 
             return data;
         }
-        #endif
 
         /// <summary>
         ///     Create byte array payload from the given request object that contains the parameters.
@@ -184,7 +188,6 @@ namespace OpenAI
             return await DispatchRequest<CreateImageResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
         }
         
-        #if !UNITY_WEBGL
         /// <summary>
         ///     Creates an edited or extended image given an original image and a prompt.
         /// </summary>
@@ -193,16 +196,15 @@ namespace OpenAI
         public async Task<CreateImageResponse> CreateImageEdit(CreateImageEditRequest request)
         {
             var path = $"{BASE_PATH}/images/edits";
-            
-            var form = new MultipartFormDataContent();
+
+            var form = new List<IMultipartFormSection>();
             form.AddImage(request.Image, "image");
             form.AddImage(request.Mask, "mask");
             form.AddValue(request.Prompt, "prompt");
             form.AddValue(request.N, "n");
             form.AddValue(request.Size, "size");
             form.AddValue(request.ResponseFormat, "response_format");
-            form.AddValue(request.User, "user");
-
+            
             return await DispatchRequest<CreateImageResponse>(path, form);
         }
         
@@ -215,15 +217,15 @@ namespace OpenAI
         {
             var path = $"{BASE_PATH}/images/variations";
             
-            var form = new MultipartFormDataContent();
+            var form = new List<IMultipartFormSection>();
             form.AddImage(request.Image, "image");
             form.AddValue(request.N, "n");
             form.AddValue(request.Size, "size");
             form.AddValue(request.ResponseFormat, "response_format");
             form.AddValue(request.User, "user");
+            
             return await DispatchRequest<CreateImageResponse>(path, form);
         }
-        #endif
        
         /// <summary>
         ///     Creates an embedding vector representing the input text.
@@ -247,7 +249,6 @@ namespace OpenAI
             return await DispatchRequest<ListFilesResponse>(path, UnityWebRequest.kHttpVerbGET);
         }
         
-        #if !UNITY_WEBGL
         /// <summary>
         ///     Upload a file that contains document(s) to be used across various endpoints/features.
         ///     Currently, the size of all the files uploaded by one organization can be up to 1 GB.
@@ -259,13 +260,12 @@ namespace OpenAI
         {
             var path = $"{BASE_PATH}/files";
             
-            var form = new MultipartFormDataContent();
+            var form = new List<IMultipartFormSection>();
             form.AddJsonl(request.File, "file");
             form.AddValue(request.Purpose, "purpose");
             
             return await DispatchRequest<OpenAIFileResponse>(path, form);
         }
-        #endif
         
         /// <summary>
         ///     Delete a file.
