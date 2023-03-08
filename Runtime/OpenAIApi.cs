@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Text;
 using Newtonsoft.Json;
+using System.Globalization;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.Collections.Generic;
@@ -49,7 +50,8 @@ namespace OpenAI
             {
                 NamingStrategy = new CustomNamingStrategy()
             },
-            MissingMemberHandling = MissingMemberHandling.Error
+            MissingMemberHandling = MissingMemberHandling.Error,
+            Culture = CultureInfo.InvariantCulture
         };
         
         /// <summary>
