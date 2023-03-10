@@ -7,34 +7,19 @@ namespace OpenAI
     public static class ExtensionMethods
     {
         /// <summary>
-        ///     Read a PNG file and add it to this form.
+        ///     Read a file and add it to this form.
         /// </summary>
         /// <param name="form">List of multipart form sections.</param>
         /// <param name="path">Path of the file to read.</param>
         /// <param name="name">Name of the form field.</param>
-        public static void AddImage(this List<IMultipartFormSection> form, string path, string name)
+        /// <param name="contentType">Content type of the file.</param>
+        public static void AddFile(this List<IMultipartFormSection> form, string path, string name, string contentType)
         {
             if (path != null)
             {
                 var data = File.ReadAllBytes(path);
                 var fileName = Path.GetFileName(path);
-                form.Add(new MultipartFormFileSection(name, data, fileName, "image/png"));
-            }
-        }
-        
-        /// <summary>
-        ///     Read a JSONL file and add it to this form.
-        /// </summary>
-        /// <param name="form">List of multipart form sections.</param>
-        /// <param name="path">Path of the file to read.</param>
-        /// <param name="name">Name of the form field.</param>
-        public static void AddJsonl(this List<IMultipartFormSection> form, string path, string name)
-        {
-            if (path != null)
-            {
-                var data = File.ReadAllBytes(path);
-                var fileName = Path.GetFileName(path);
-                form.Add(new MultipartFormFileSection(name, data, fileName, "application/json"));
+                form.Add(new MultipartFormFileSection(name, data, fileName, contentType));
             }
         }
         
