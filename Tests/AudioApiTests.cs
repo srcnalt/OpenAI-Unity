@@ -25,7 +25,22 @@ namespace OpenAI.Tests
         }
         
         [Test]
-        public async Task Create_Audio_Translation()
+        public async Task Create_Audio_Transcriptions_From_Estonian()
+        {
+            var req = new CreateAudioTranscriptionsRequest
+            {
+                File = Environment.CurrentDirectory + "/Assets/Tests/Data/recording_estonian.m4a",
+                Model = "whisper-1",
+                Language = "et"
+            };
+            var res = await openai.CreateAudioTranscription(req);
+            Assert.NotNull(res);
+            
+            Debug.Log(res.Text);
+        }
+        
+        [Test]
+        public async Task Create_Audio_Translation_From_Turkish()
         {
             var req = new CreateAudioTranslationRequest
             {
