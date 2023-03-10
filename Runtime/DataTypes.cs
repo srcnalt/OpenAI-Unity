@@ -118,6 +118,31 @@ namespace OpenAI
     }
     #endregion
 
+    #region Audio Transcriptions Data Types
+
+    public class CreateAudioRequestBase
+    {
+        public string File { get; set; }
+        public string Model { get; set; }
+        public string Prompt { get; set; }
+        public string ResponseFormat { get; set; } = AudioResponseFormat.Json;
+        public float? Temperature { get; set; } = 0;
+    }
+    
+    public class CreateAudioTranscriptionsRequest: CreateAudioRequestBase
+    {
+        public string Language { get; set; }
+    }
+    
+    public class CreateAudioTranslationRequest: CreateAudioRequestBase { }
+    
+    public struct CreateAudioResponse: IResponse
+    {
+        public ApiError Error { get; set; }
+        public string Text { get; set; }
+    }
+    #endregion
+
     #region Completions API Data Types
     public sealed class CreateCompletionRequest
     {
@@ -364,7 +389,16 @@ namespace OpenAI
         public const string Url = "url";
         public const string Base64Json = "b64_json";
     }
-
+    
+    public static class AudioResponseFormat
+    {
+        public const string Json = "json";
+        public const string Text = "text";
+        public const string Srt = "srt";
+        public const string VerboseJson = "verbose_json";
+        public const string Vtt = "vtt";
+    }
+    
     public static class ModerationModel
     {
         public const string Stable = "text-moderation-stable";
