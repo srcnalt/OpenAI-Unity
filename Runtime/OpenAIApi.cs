@@ -167,13 +167,6 @@ namespace OpenAI
             return await DispatchRequest<CreateCompletionResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
         }
         
-        public async Task<CreateChatCompletionResponse> CreateChatCompletion(CreateChatCompletionRequest request)
-        {
-            var path = $"{BASE_PATH}/chat/completions";
-            var payload = CreatePayload(request);
-            return await DispatchRequest<CreateChatCompletionResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
-        }
-        
         /// <summary>
         ///     Creates a chat completion request as in ChatGPT.
         /// </summary>
