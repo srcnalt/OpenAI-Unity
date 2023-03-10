@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Text;
 using Newtonsoft.Json;
+using System.Globalization;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.Collections.Generic;
@@ -50,7 +51,8 @@ namespace OpenAI
             {
                 NamingStrategy = new CustomNamingStrategy()
             },
-            MissingMemberHandling = MissingMemberHandling.Error
+            MissingMemberHandling = MissingMemberHandling.Error,
+            Culture = CultureInfo.InvariantCulture
         };
         
         /// <summary>
@@ -163,6 +165,13 @@ namespace OpenAI
             var path = $"{BASE_PATH}/completions";
             var payload = CreatePayload(request);
             return await DispatchRequest<CreateCompletionResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
+        }
+        
+        public async Task<CreateChatCompletionResponse> CreateChatCompletion(CreateChatCompletionRequest request)
+        {
+            var path = $"{BASE_PATH}/chat/completions";
+            var payload = CreatePayload(request);
+            return await DispatchRequest<CreateChatCompletionResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
         }
         
         /// <summary>
