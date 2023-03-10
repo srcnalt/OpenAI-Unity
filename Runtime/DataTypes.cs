@@ -81,7 +81,7 @@ namespace OpenAI
     public sealed class CreateChatCompletionRequest
     {
         public string Model { get; set; }
-        public ChatMessage[] Messages { get; set; }
+        public List<ChatMessage> Messages { get; set; }
         public float? Temperature { get; set; } = 1;
         public int? N { get; set; } = 1;
         public bool? Stream { get; set; } = false;

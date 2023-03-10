@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace OpenAI.Tests
             var req = new CreateChatCompletionRequest
             {
                 Model = "gpt-3.5-turbo",
-                Messages = new []
+                Messages = new List<ChatMessage>()
                 {
                     new ChatMessage() { Role = "user", Content = "Hello!" }
                 }
