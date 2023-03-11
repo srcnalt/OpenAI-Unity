@@ -21,13 +21,23 @@
   "samples": [
     {
       "displayName": "ChatGPT",
-      "description": "A simple ChatGPT like chat example.",
+      "description": "ChatGPT example using chat completion API.",
       "path": "Samples~/ChatGPT"
     },
     {
       "displayName": "DallE",
       "description": "A DALL.E text to image generation example.",
       "path": "Samples~/DallE"
+    },
+    {
+      "displayName": "Text Completion Chat",
+      "description": "A simple ChatGPT like chat example using text completion API.",
+      "path": "Samples~/Text Completion Chat"
+    },
+    {
+      "displayName": "Whisper",
+      "description": "A Whisper audio to text generation example.",
+      "path": "Samples~/Whisper"
     }
   ]
 }
