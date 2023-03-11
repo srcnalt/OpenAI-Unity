@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json.Serialization;
 
 namespace OpenAI
@@ -166,6 +167,11 @@ namespace OpenAI
             return await DispatchRequest<CreateCompletionResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
         }
         
+        /// <summary>
+        ///     Creates a chat completion request as in ChatGPT.
+        /// </summary>
+        /// <param name="request">See <see cref="CreateChatCompletionRequest"/></param>
+        /// <returns>See <see cref="CreateChatCompletionResponse"/></returns>
         public async Task<CreateChatCompletionResponse> CreateChatCompletion(CreateChatCompletionRequest request)
         {
             var path = $"{BASE_PATH}/chat/completions";
@@ -207,8 +213,8 @@ namespace OpenAI
             var path = $"{BASE_PATH}/images/edits";
 
             var form = new List<IMultipartFormSection>();
-            form.AddImage(request.Image, "image");
-            form.AddImage(request.Mask, "mask");
+            form.AddFile(request.Image, "image", "image/png");
+            form.AddFile(request.Mask, "mask", "image/png");
             form.AddValue(request.Prompt, "prompt");
             form.AddValue(request.N, "n");
             form.AddValue(request.Size, "size");
@@ -227,7 +233,7 @@ namespace OpenAI
             var path = $"{BASE_PATH}/images/variations";
             
             var form = new List<IMultipartFormSection>();
-            form.AddImage(request.Image, "image");
+            form.AddFile(request.Image, "image", "image/png");
             form.AddValue(request.N, "n");
             form.AddValue(request.Size, "size");
             form.AddValue(request.ResponseFormat, "response_format");
@@ -246,6 +252,45 @@ namespace OpenAI
             var path = $"{BASE_PATH}/embeddings";
             var payload = CreatePayload(request);
             return await DispatchRequest<CreateEmbeddingsResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
+        }
+
+        /// <summary>
+        ///     Transcribes audio into the input language.
+        /// </summary>
+        /// <param name="request">See <see cref="CreateAudioTranscriptionsRequest"/></param>
+        /// <returns>See <see cref="CreateAudioResponse"/></returns>
+        public async Task<CreateAudioResponse> CreateAudioTranscription(CreateAudioTranscriptionsRequest request)
+        {
+            var path = $"{BASE_PATH}/audio/transcriptions";
+            
+            var form = new List<IMultipartFormSection>();
+            form.AddFile(request.File, "file", $"audio/{Path.GetExtension(request.File)}");
+            form.AddValue(request.Model, "model");
+            form.AddValue(request.Prompt, "prompt");
+            form.AddValue(request.ResponseFormat, "response_format");
+            form.AddValue(request.Temperature, "temperature");
+            form.AddValue(request.Language, "language");
+
+            return await DispatchRequest<CreateAudioResponse>(path, form);
+        }
+        
+        /// <summary>
+        ///     Translates audio into into English.
+        /// </summary>
+        /// <param name="request">See <see cref="CreateAudioTranslationRequest"/></param>
+        /// <returns>See <see cref="CreateAudioResponse"/></returns>
+        public async Task<CreateAudioResponse> CreateAudioTranslation(CreateAudioTranslationRequest request)
+        {
+            var path = $"{BASE_PATH}/audio/translations";
+            
+            var form = new List<IMultipartFormSection>();
+            form.AddFile(request.File, "file", $"audio/{Path.GetExtension(request.File)}");
+            form.AddValue(request.Model, "model");
+            form.AddValue(request.Prompt, "prompt");
+            form.AddValue(request.ResponseFormat, "response_format");
+            form.AddValue(request.Temperature, "temperature");
+
+            return await DispatchRequest<CreateAudioResponse>(path, form);
         }
         
         /// <summary>
@@ -270,7 +315,7 @@ namespace OpenAI
             var path = $"{BASE_PATH}/files";
             
             var form = new List<IMultipartFormSection>();
-            form.AddJsonl(request.File, "file");
+            form.AddFile(request.File, "file", "application/json");
             form.AddValue(request.Purpose, "purpose");
             
             return await DispatchRequest<OpenAIFileResponse>(path, form);
