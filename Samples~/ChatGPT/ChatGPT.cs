@@ -1,8 +1,6 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace OpenAI
 {
@@ -10,7 +8,7 @@ namespace OpenAI
     {
         [SerializeField] private InputField inputField;
         [SerializeField] private Button button;
-        [SerializeField] private RectTransform context;
+        [SerializeField] private ScrollRect scroll;
         
         [SerializeField] private RectTransform sent;
         [SerializeField] private RectTransform received;
@@ -26,18 +24,17 @@ namespace OpenAI
             button.onClick.AddListener(SendReply);
         }
 
-        private async void AppendMessage(ChatMessage message)
+        private void AppendMessage(ChatMessage message)
         {
-            context.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
+            scroll.content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
 
-            var item = Instantiate(message.Role == "user" ? sent : received, context);
+            var item = Instantiate(message.Role == "user" ? sent : received, scroll.content);
             item.GetChild(0).GetChild(0).GetComponent<Text>().text = message.Content;
             item.anchoredPosition = new Vector2(0, -height);
-
-            await Task.Delay(200);
-
+            LayoutRebuilder.ForceRebuildLayoutImmediate(item);
             height += item.sizeDelta.y;
-            context.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            scroll.content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            scroll.verticalNormalizedPosition = 0;
         }
 
         private async void SendReply()
@@ -55,6 +52,7 @@ namespace OpenAI
             messages.Add(newMessage);
             
             button.enabled = false;
+            inputField.text = "";
             inputField.enabled = false;
             
             // Complete the instruction

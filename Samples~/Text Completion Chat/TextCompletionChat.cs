@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace OpenAI
@@ -9,7 +8,7 @@ namespace OpenAI
     {
         [SerializeField] private InputField inputField;
         [SerializeField] private Button button;
-        [SerializeField] private RectTransform context;
+        [SerializeField] private ScrollRect scroll;
         
         [SerializeField] private RectTransform sent;
         [SerializeField] private RectTransform received;
@@ -17,9 +16,8 @@ namespace OpenAI
         private float height;
         private OpenAIApi openai = new OpenAIApi();
 
-        private List<ChatMessage> messages = new List<ChatMessage>();
-        private string prompt = "Act as a random stranger in a chat room and reply to the questions.\nQ: ";
         private string userInput;
+        private string prompt = "Act as a random stranger in a chat room and reply to the questions.\nQ: ";
         
         private void Start()
         {
@@ -28,14 +26,15 @@ namespace OpenAI
         
         private void AppendMessage(string message, bool isUser = true)
         {
-            context.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
+            scroll.content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
 
-            var item = Instantiate(isUser ? sent : received, context);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(item);
+            var item = Instantiate(isUser ? sent : received, scroll.content);
             item.GetChild(0).GetChild(0).GetComponent<Text>().text = message;
             item.anchoredPosition = new Vector2(0, -height);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(item);
             height += item.sizeDelta.y;
-            context.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            scroll.content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            scroll.verticalNormalizedPosition = 0;
         }
 
         private async void SendReply()

@@ -668,7 +668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField: {fileID: 1079664277}
   button: {fileID: 1920761190}
-  context: {fileID: 1216428644}
+  scroll: {fileID: 356682880}
   sent: {fileID: 8660877164928630359, guid: 53cd26a6eefa5a74086203cd118a04d3, type: 3}
   received: {fileID: 961534450149497043, guid: adc0146c2853ed1418133faaf4379eb1, type: 3}
 --- !u!4 &499436300
@@ -879,7 +879,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1024, y: 768}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
