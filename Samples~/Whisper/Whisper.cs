@@ -42,11 +42,12 @@ namespace OpenAI
             
             isRecording = false;
             Microphone.End(null);
-            SavWav.Save(fileName, clip);
+            byte[] data = SaveWav.Save(fileName, clip);
             
             var req = new CreateAudioTranscriptionsRequest
             {
-                File = Application.persistentDataPath + "/" + fileName,
+                FileData = new FileData() {Data = data, Name = "audio.wav"},
+                // File = Application.persistentDataPath + "/" + fileName,
                 Model = "whisper-1",
                 Language = "en"
             };
