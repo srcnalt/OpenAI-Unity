@@ -24,6 +24,22 @@ namespace OpenAI
         }
         
         /// <summary>
+        ///     Read a file and add it to this form.
+        /// </summary>
+        /// <param name="form">List of multipart form sections.</param>
+        /// <param name="data">Byte array data of the file to attach.</param>
+        /// <param name="name">Name of the form field.</param>
+        /// <param name="contentType">Content type of the file.</param>
+        public static void AddData(this List<IMultipartFormSection> form, FileData data, string name, string contentType)
+        {
+            if (data.Data != null)
+            {
+                var fileName = Path.GetFileName(data.Name);
+                form.Add(new MultipartFormFileSection(name, data.Data, fileName, contentType));
+            }
+        }
+        
+        /// <summary>
         ///     Add a primitive value to the form.
         /// </summary>
         /// <param name="form">List of multipart form sections.</param>
