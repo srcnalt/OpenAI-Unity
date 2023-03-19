@@ -120,9 +120,16 @@ namespace OpenAI
 
     #region Audio Transcriptions Data Types
 
+    public struct FileData
+    {
+        public byte[] Data;
+        public string Name;
+    }
+
     public class CreateAudioRequestBase
     {
         public string File { get; set; }
+        public FileData FileData { get; set; }
         public string Model { get; set; }
         public string Prompt { get; set; }
         public string ResponseFormat { get; set; } = AudioResponseFormat.Json;
