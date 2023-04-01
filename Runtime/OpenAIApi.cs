@@ -291,7 +291,14 @@ namespace OpenAI
             var path = $"{BASE_PATH}/audio/translations";
             
             var form = new List<IMultipartFormSection>();
-            form.AddFile(request.File, "file", $"audio/{Path.GetExtension(request.File)}");
+            if (string.IsNullOrEmpty(request.File))
+            {
+                form.AddData(request.FileData, "file", $"audio/{Path.GetExtension(request.File)}");
+            }
+            else
+            {
+                form.AddFile(request.File, "file", $"audio/{Path.GetExtension(request.File)}");
+            }
             form.AddValue(request.Model, "model");
             form.AddValue(request.Prompt, "prompt");
             form.AddValue(request.ResponseFormat, "response_format");

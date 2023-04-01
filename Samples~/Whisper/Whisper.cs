@@ -26,21 +26,30 @@ namespace OpenAI
                 dropdown.options.Add(new Dropdown.OptionData(device));
             }
             recordButton.onClick.AddListener(StartRecording);
+            dropdown.onValueChanged.AddListener(ChangeMicrophone);
+            
+            var index = PlayerPrefs.GetInt("user-mic-device-index");
+            dropdown.SetValueWithoutNotify(index);
         }
 
+        private void ChangeMicrophone(int index)
+        {
+            PlayerPrefs.SetInt("user-mic-device-index", index);
+        }
+        
         private void StartRecording()
         {
             isRecording = true;
             recordButton.enabled = false;
-            
-            clip = Microphone.Start(dropdown.options[dropdown.value].text, false, duration, 44100);
+
+            var index = PlayerPrefs.GetInt("user-mic-device-index");
+            clip = Microphone.Start(dropdown.options[index].text, false, duration, 44100);
         }
 
         private async void EndRecording()
         {
             message.text = "Transcripting...";
             
-            isRecording = false;
             Microphone.End(null);
             byte[] data = SaveWav.Save(fileName, clip);
             
@@ -53,7 +62,9 @@ namespace OpenAI
             };
             var res = await openai.CreateAudioTranscription(req);
 
+            progressBar.fillAmount = 0;
             message.text = res.Text;
+            recordButton.enabled = true;
         }
 
         private void Update()
@@ -65,6 +76,7 @@ namespace OpenAI
                 
                 if (time >= duration)
                 {
+                    time = 0;
                     isRecording = false;
                     EndRecording();
                 }
