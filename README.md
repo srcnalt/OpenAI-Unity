@@ -66,6 +66,30 @@ private async void SendRequest()
 }
 ```
 
+To make a stream request, you can use the `CreateCompletionAsync` and `CreateChatCompletionAsync` methods. 
+These methods are going to set `Stream` property of the request to `true` and return responses through an onResponse callback.
+In this case text responses are stored in `Delta` property of the `Choices` field.
+
+```csharp
+var req = new CreateCompletionRequest{
+    Model = "text-davinci-003",
+    Prompt = "Say this is a test.",
+    MaxTokens = 7,
+    Temperature = 0
+};
+    
+openai.CreateCompletionAsync(req, 
+    (responses) => {
+        var result = string.Join("", responses.Select(response => response.Choices[0].Delta.Content));
+        Debug.Log(result);
+    }, 
+    () => {
+        Debug.Log("completed");
+    }, 
+    new CancellationTokenSource());
+}
+```
+
 ### Sample Projects
 This package includes two sample scenes that you can import via the Package Manager:
 
