@@ -234,6 +234,7 @@ namespace OpenAI
         /// <param name="token">Cancellation token to cancel the request.</param>
         public void CreateCompletionAsync(CreateCompletionRequest request, Action<List<CreateCompletionResponse>> onResponse, Action onComplete, CancellationTokenSource token)
         {
+            request.Stream = true;
             var path = $"{BASE_PATH}/completions";
             var payload = CreatePayload(request);
             
@@ -262,6 +263,7 @@ namespace OpenAI
         /// <param name="token">Cancellation token to cancel the request.</param>
         public void CreateChatCompletionAsync(CreateChatCompletionRequest request, Action<List<CreateChatCompletionResponse>> onResponse, Action onComplete, CancellationTokenSource token)
         {
+            request.Stream = true;
             var path = $"{BASE_PATH}/chat/completions";
             var payload = CreatePayload(request);
             
