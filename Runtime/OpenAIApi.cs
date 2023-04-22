@@ -1,12 +1,15 @@
+using System;
+using System.IO;
 using UnityEngine;
 using System.Text;
 using Newtonsoft.Json;
+using System.Threading;
 using System.Globalization;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-using System.IO;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 
 namespace OpenAI
 {
@@ -86,6 +89,61 @@ namespace OpenAI
             }
             
             return data;
+        }
+        
+        /// <summary>
+        ///     Dispatches an HTTP request to the specified path with the specified method and optional payload.
+        /// </summary>
+        /// <param name="path">The path to send the request to.</param>
+        /// <param name="method">The HTTP method to use for the request.</param>
+        /// <param name="onResponse">A callback function to be called when a response is updated.</param>
+        /// <param name="onComplete">A callback function to be called when the request is complete.</param>
+        /// <param name="token">A cancellation token to cancel the request.</param>
+        /// <param name="payload">An optional byte array of json payload to include in the request.</param>
+        private async void DispatchRequest<T>(string path, string method, Action<List<T>> onResponse, Action onComplete, CancellationTokenSource token, byte[] payload = null) where T: IResponse
+        {
+            using (var request = UnityWebRequest.Put(path, payload))
+            {
+                request.method = method;
+                request.SetHeaders(Configuration, ContentType.ApplicationJson);
+                
+                var asyncOperation = request.SendWebRequest();
+
+                do
+                {
+                    List<T> dataList = new List<T>();
+                    string[] lines = request.downloadHandler.text.Split('\n').Where(line => line != "").ToArray();
+
+                    foreach (string line in lines)
+                    {
+                        var value = line.Replace("data: ", "");
+                        
+                        if (value.Contains("[DONE]")) 
+                        {
+                            onComplete?.Invoke();
+                            break;
+                        }
+                        
+                        var data = JsonConvert.DeserializeObject<T>(value, jsonSerializerSettings);
+
+                        if (data?.Error != null)
+                        {
+                            ApiError error = data.Error;
+                            Debug.LogError($"Error Message: {error.Message}\nError Type: {error.Type}\n");
+                        }
+                        else
+                        {
+                            dataList.Add(data);
+                        }
+                    }
+                    onResponse?.Invoke(dataList);
+                    
+                    await Task.Yield();
+                }
+                while (!asyncOperation.isDone && !token.IsCancellationRequested);
+                
+                onComplete?.Invoke();
+            }
         }
 
         /// <summary>
@@ -171,12 +229,45 @@ namespace OpenAI
         ///     Creates a chat completion request as in ChatGPT.
         /// </summary>
         /// <param name="request">See <see cref="CreateChatCompletionRequest"/></param>
+        /// <param name="onResponse">Callback function that will be called when stream response is updated.</param>
+        /// <param name="onComplete">Callback function that will be called when stream response is completed.</param>
+        /// <param name="token">Cancellation token to cancel the request.</param>
+        public void CreateCompletionAsync(CreateCompletionRequest request, Action<List<CreateCompletionResponse>> onResponse, Action onComplete, CancellationTokenSource token)
+        {
+            request.Stream = true;
+            var path = $"{BASE_PATH}/completions";
+            var payload = CreatePayload(request);
+            
+            DispatchRequest(path, UnityWebRequest.kHttpVerbPOST, onResponse, onComplete, token, payload);
+        }
+        
+        /// <summary>
+        ///     Creates a chat completion request as in ChatGPT.
+        /// </summary>
+        /// <param name="request">See <see cref="CreateChatCompletionRequest"/></param>
         /// <returns>See <see cref="CreateChatCompletionResponse"/></returns>
         public async Task<CreateChatCompletionResponse> CreateChatCompletion(CreateChatCompletionRequest request)
         {
             var path = $"{BASE_PATH}/chat/completions";
             var payload = CreatePayload(request);
+            
             return await DispatchRequest<CreateChatCompletionResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
+        }
+        
+        /// <summary>
+        ///     Creates a chat completion request as in ChatGPT.
+        /// </summary>
+        /// <param name="request">See <see cref="CreateChatCompletionRequest"/></param>
+        /// <param name="onResponse">Callback function that will be called when stream response is updated.</param>
+        /// <param name="onComplete">Callback function that will be called when stream response is completed.</param>
+        /// <param name="token">Cancellation token to cancel the request.</param>
+        public void CreateChatCompletionAsync(CreateChatCompletionRequest request, Action<List<CreateChatCompletionResponse>> onResponse, Action onComplete, CancellationTokenSource token)
+        {
+            request.Stream = true;
+            var path = $"{BASE_PATH}/chat/completions";
+            var payload = CreatePayload(request);
+            
+            DispatchRequest(path, UnityWebRequest.kHttpVerbPOST, onResponse, onComplete, token, payload);
         }
         
         /// <summary>
