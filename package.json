@@ -26,14 +26,19 @@
       "path": "Samples~/ChatGPT"
     },
     {
-      "displayName": "DallE",
-      "description": "A DALL.E text to image generation example.",
-      "path": "Samples~/DallE"
-    },
-    {
       "displayName": "Text Completion Chat",
       "description": "A simple ChatGPT like chat example using text completion API.",
       "path": "Samples~/Text Completion Chat"
+    },
+    {
+      "displayName": "Stream Response",
+      "description": "An example that shows how to stream text and chat completion responses.",
+      "path": "Samples~/Stream Response"
+    },
+    {
+      "displayName": "DallE",
+      "description": "A DALL.E text to image generation example.",
+      "path": "Samples~/DallE"
     },
     {
       "displayName": "Whisper",
