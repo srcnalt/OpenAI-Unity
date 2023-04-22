@@ -83,8 +83,8 @@ namespace OpenAI
         public string Model { get; set; }
         public List<ChatMessage> Messages { get; set; }
         public float? Temperature { get; set; } = 1;
-        public int? N { get; set; } = 1;
-        public bool? Stream { get; set; } = false;
+        public int N { get; set; } = 1;
+        public bool Stream { get; set; } = false;
         public string Stop { get; set; }
         public int? MaxTokens { get; set; }
         public float? PresencePenalty { get; set; } = 0;
@@ -107,6 +107,7 @@ namespace OpenAI
     public struct ChatChoice
     {
         public ChatMessage Message { get; set; }
+        public ChatMessage Delta { get; set; }
         public int? Index { get; set; }
         public string FinishReason { get; set; }
     }
@@ -116,6 +117,7 @@ namespace OpenAI
         public string Role { get; set; }
         public string Content { get; set; }
     }
+    
     #endregion
 
     #region Audio Transcriptions Data Types
@@ -159,8 +161,8 @@ namespace OpenAI
         public int? MaxTokens { get; set; } = 16;
         public float? Temperature { get; set; } = 1;
         public float? TopP { get; set; } = 1;
-        public int? N { get; set; } = 1;
-        public bool? Stream { get; set; } = false;
+        public int N { get; set; } = 1;
+        public bool Stream { get; set; } = false;
         public int? Logpropbs { get; set; }
         public bool? Echo { get; set; } = false;
         public string Stop { get; set; }
