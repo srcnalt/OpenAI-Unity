@@ -102,4 +102,4 @@ downloaded using UnityWebRequest until you run it out of localhost, on a server.
 
 ### Further Reading
 For more information on how to use the various request parameters, 
-please refer to the OpenAI documentation: https://beta.openai.com/docs/api-reference/introduction
+please refer to the OpenAI documentation: https://platform.openai.com/docs/api-reference
