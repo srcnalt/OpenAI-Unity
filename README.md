@@ -100,7 +100,7 @@ This package includes two sample scenes that you can import via the Package Mana
 - **Can't See the Image Result in WebGL Builds:** Due to CORS policy of OpenAI image storage in local WebGL builds you will get the generated image's URL however it will not be
 downloaded using UnityWebRequest until you run it out of localhost, on a server.
 
-- **Streamed Response is just blank in WebGL Build:** Unity 2020 will have a bug where stream responses return empty, you can update version and try in a never version of Unity.
+- **Streamed Response is just blank in WebGL Build:** Unity 2020 WebGL has a bug where stream responses return empty. You can update and try with a newer version of Unity.
 
 ### Further Reading
 For more information on how to use the various request parameters, 
