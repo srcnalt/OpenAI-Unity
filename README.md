@@ -103,3 +103,12 @@ downloaded using UnityWebRequest until you run it out of localhost, on a server.
 ### Further Reading
 For more information on how to use the various request parameters, 
 please refer to the OpenAI documentation: https://beta.openai.com/docs/api-reference/introduction
+
+### Supported Unity Versions for WebGL Builds
+The following table shows the supported Unity versions for WebGL builds: 
+
+| Unity Version | Supported |
+| --- | --- |
+| 2022.2.8f1 | ✅ |
+| 2021.3.5f1 | ⛔ |
+| 2020.3.0f1 | ✅ |
