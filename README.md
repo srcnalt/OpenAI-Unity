@@ -68,17 +68,23 @@ private async void SendRequest()
 
 To make a stream request, you can use the `CreateCompletionAsync` and `CreateChatCompletionAsync` methods. 
 These methods are going to set `Stream` property of the request to `true` and return responses through an onResponse callback.
-In this case text responses are stored in `Delta` property of the `Choices` field.
+In this case text responses are stored in `Delta` property of the `Choices` field in the Chat Completion.
 
 ```csharp
-var req = new CreateCompletionRequest{
-    Model = "text-davinci-003",
-    Prompt = "Say this is a test.",
-    MaxTokens = 7,
-    Temperature = 0
+var req = new CreateChatCompletionRequest{
+    Model = "gpt-3.5-turbo",
+    Messages = new List<ChatMessage>
+    {
+        new ChatMessage()
+        {
+            Role = "user",
+            Content = "Write a 100 word long short story in La Fontaine style."
+        }
+    },
+    Temperature = 0.7f,
 };
     
-openai.CreateCompletionAsync(req, 
+openai.CreateChatCompletionAsync(req, 
     (responses) => {
         var result = string.Join("", responses.Select(response => response.Choices[0].Delta.Content));
         Debug.Log(result);
@@ -86,8 +92,8 @@ openai.CreateCompletionAsync(req,
     () => {
         Debug.Log("completed");
     }, 
-    new CancellationTokenSource());
-}
+    new CancellationTokenSource()
+);
 ```
 
 ### Sample Projects
@@ -100,9 +106,7 @@ This package includes two sample scenes that you can import via the Package Mana
 - **Can't See the Image Result in WebGL Builds:** Due to CORS policy of OpenAI image storage in local WebGL builds you will get the generated image's URL however it will not be
 downloaded using UnityWebRequest until you run it out of localhost, on a server.
 
-### Further Reading
-For more information on how to use the various request parameters, 
-please refer to the OpenAI documentation: https://beta.openai.com/docs/api-reference/introduction
+- **Streamed Response is just blank in WebGL Build:** Unity 2020 WebGL has a bug where stream responses return empty. You can update and try with a newer version of Unity.
 
 ### Supported Unity Versions for WebGL Builds
 The following table shows the supported Unity versions for WebGL builds: 
@@ -112,3 +116,6 @@ The following table shows the supported Unity versions for WebGL builds:
 | 2022.2.8f1 | ✅ |
 | 2021.3.5f1 | ⛔ |
 | 2020.3.0f1 | ✅ |
+
+### Further Reading
+For more information on how to use the various request parameters, please refer to the OpenAI documentation: https://platform.openai.com/docs/api-reference
