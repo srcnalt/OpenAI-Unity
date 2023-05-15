@@ -6,7 +6,7 @@
   "unity": "2020.3",
   "unityRelease": "0f1",
   "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "3.1.0"
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "keywords": [
     "openai",
