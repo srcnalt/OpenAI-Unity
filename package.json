@@ -1,12 +1,12 @@
 {
   "name": "com.srcnalt.openai-unity",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "displayName": "OpenAI Unity",
   "description": "An unofficial OpenAI Unity Package that aims to help you use OpenAI API directly in Unity Game engine.",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "dependencies": {
-    "com.unity.nuget.newtonsoft-json": "3.1.0"
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "keywords": [
     "openai",
@@ -26,14 +26,19 @@
       "path": "Samples~/ChatGPT"
     },
     {
-      "displayName": "DallE",
-      "description": "A DALL.E text to image generation example.",
-      "path": "Samples~/DallE"
-    },
-    {
       "displayName": "Text Completion Chat",
       "description": "A simple ChatGPT like chat example using text completion API.",
       "path": "Samples~/Text Completion Chat"
+    },
+    {
+      "displayName": "Stream Response",
+      "description": "An example that shows how to stream text and chat completion responses.",
+      "path": "Samples~/Stream Response"
+    },
+    {
+      "displayName": "DallE",
+      "description": "A DALL.E text to image generation example.",
+      "path": "Samples~/DallE"
     },
     {
       "displayName": "Whisper",
