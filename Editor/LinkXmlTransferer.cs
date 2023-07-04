@@ -12,8 +12,8 @@ namespace OpenAI
 
         public string GenerateAdditionalLinkXmlFile(BuildReport report, UnityLinkerBuildPipelineData data)
         {
-            string linkXmlGuid = AssetDatabase.FindAssets("link.xml")[0];
-            string linkXmlPath = AssetDatabase.GUIDToAssetPath(linkXmlGuid);
+            string[] linkXmlGuid = AssetDatabase.FindAssets("link", new string[] { "Assets/Resources/LinkXml" });
+            string linkXmlPath = AssetDatabase.GUIDToAssetPath(linkXmlGuid[0]);
             return Path.GetFullPath(linkXmlPath);
         }
 
