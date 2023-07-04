@@ -164,7 +164,7 @@ namespace OpenAI
                 var formSections = UnityWebRequest.SerializeFormSections(form, boundary);
                 var contentType = $"{ContentType.MultipartFormData}; boundary={Encoding.UTF8.GetString(boundary)}";
                 request.uploadHandler = new UploadHandlerRaw(formSections) {contentType = contentType};
-                request.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
+                request.downloadHandler = new DownloadHandlerBuffer();
                 var asyncOperation = request.SendWebRequest();
 
                 while (!asyncOperation.isDone) await Task.Yield();
