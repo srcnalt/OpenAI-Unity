@@ -1,0 +1,3 @@
+﻿<linker>
+    <assembly fullname="OpenAI.Runtime" preserve="all" />
+</linker>
