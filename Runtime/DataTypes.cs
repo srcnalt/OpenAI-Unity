@@ -250,7 +250,7 @@ namespace OpenAI
     public struct CreateEmbeddingsRequest
     {
         public string Model { get; set; }
-        public string Input { get; set; }
+        public object Input { get; set; }
         public string User { get; set; }
     }
 
