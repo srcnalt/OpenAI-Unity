@@ -87,6 +87,11 @@ namespace OpenAI
                 ApiError error = data.Error;
                 Debug.LogError($"Error Message: {error.Message}\nError Type: {error.Type}\n");
             }
+
+            if (data?.Warning != null)
+            {
+                Debug.LogWarning(data.Warning);
+            }
             
             return data;
         }
