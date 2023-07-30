@@ -6,6 +6,14 @@ An unofficial Unity package that allows you to use the OpenAI API directly in th
 
 ## How To Use
 
+### Youtube Tutorials
+You can find dedicated video tutorials for how to use this package in this YouTube playlist.
+
+https://www.youtube.com/playlist?list=PLrE-FZIEEls1-c7QifZYzeq50Id08FcJo
+
+<img width="653" alt="image" src="https://github.com/srcnalt/OpenAI-Unity/assets/3163281/f7041378-f894-40ca-8a7f-1f3c2b5f38ee">
+
+
 ### Importing the Package
 To import the package, follow these steps:
 - Open Unity 2019 or later
