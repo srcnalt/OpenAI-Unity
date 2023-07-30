@@ -11,8 +11,7 @@ You can find dedicated video tutorials for how to use this package in this YouTu
 
 https://www.youtube.com/playlist?list=PLrE-FZIEEls1-c7QifZYzeq50Id08FcJo
 
-<img width="653" alt="image" src="https://github.com/srcnalt/OpenAI-Unity/assets/3163281/f7041378-f894-40ca-8a7f-1f3c2b5f38ee">
-
+<img width="655" alt="image" src="https://github.com/srcnalt/OpenAI-Unity/assets/3163281/cf0004cf-ff2d-4dad-955e-259bd5a77786">
 
 ### Importing the Package
 To import the package, follow these steps:
