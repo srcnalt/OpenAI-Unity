@@ -115,40 +115,20 @@ namespace OpenAI
         public string Name { get; set; }
         public string Description { get; set; }
         public Parameters Parameters { get; set; }
-
-        public string arguments { get; set; }
-        //public Arguments arguments { get; set; }
-    }
-
-    public class Arguments
-    {
-        public string location { get; set; }
-        public string unit { get; set; }
     }
 
     public class Parameters
     {
-        public string Type { get; set; }
-        public Properties Properties { get; set; }
+        public string Type { get; set; } = "object"
+        public Dictionary<string, Property> Properties { get; set; }
         public List<string> Required { get; set; }
     }
 
-    public class Properties
-    {
-        public Pain Pain { get; set; }
-        public Reponse Reponse { get; set; }
-    }
-
-    public class Pain
+    public class Property
     {
         public string Type { get; set; }
         public string Description { get; set; }
-    }
-
-    public class Reponse
-    {
-        public string Type { get; set; }
-        public string Description { get; set; }
+        public List<string> Enum;
     }
     // ==========================================================================
     
