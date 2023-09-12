@@ -85,7 +85,8 @@ namespace OpenAI
     {
         public string Model { get; set; }
         public List<ChatMessage> Messages { get; set; }
-        public List<OpenAIFunction> Functions { get; set; } // Added
+        public List<OpenAIFunction>? Functions { get; set; } // Added
+		public string? FunctionCall { get; set; }
         public float? Temperature { get; set; } = 1;
         public int N { get; set; } = 1;
         public bool Stream { get; set; } = false;
@@ -119,7 +120,7 @@ namespace OpenAI
 
     public class Parameters
     {
-        public string Type { get; set; } = "object"
+        public string Type { get; set; } = "object";
         public Dictionary<string, Property> Properties { get; set; }
         public List<string> Required { get; set; }
     }
@@ -143,10 +144,15 @@ namespace OpenAI
     public struct ChatMessage
     {
         public string Role { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public string Content { get; set; }
-
-        public OpenAIFunction function_call { get; set; } // Custom Added!
+        public FunctionCall? FunctionCall { get; set; } // Custom Added!
+    }
+    
+    public struct FunctionCall
+    {
+        public string Arguments { get; set; }
+        public string Name { get; set; }
     }
     
     #endregion
