@@ -85,6 +85,7 @@ namespace OpenAI
     {
         public string Model { get; set; }
         public List<ChatMessage> Messages { get; set; }
+        public List<OpenAIFunction> Functions { get; set; } // Added
         public float? Temperature { get; set; } = 1;
         public int N { get; set; } = 1;
         public bool Stream { get; set; } = false;
@@ -107,6 +108,49 @@ namespace OpenAI
         public List<ChatChoice> Choices { get; set; }
         public Usage Usage { get; set; }
     }
+
+    // === Added classes !! ====================================================
+    public class OpenAIFunction
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Parameters Parameters { get; set; }
+
+        public string arguments { get; set; }
+        //public Arguments arguments { get; set; }
+    }
+
+    public class Arguments
+    {
+        public string location { get; set; }
+        public string unit { get; set; }
+    }
+
+    public class Parameters
+    {
+        public string Type { get; set; }
+        public Properties Properties { get; set; }
+        public List<string> Required { get; set; }
+    }
+
+    public class Properties
+    {
+        public Pain Pain { get; set; }
+        public Reponse Reponse { get; set; }
+    }
+
+    public class Pain
+    {
+        public string Type { get; set; }
+        public string Description { get; set; }
+    }
+
+    public class Reponse
+    {
+        public string Type { get; set; }
+        public string Description { get; set; }
+    }
+    // ==========================================================================
     
     public struct ChatChoice
     {
@@ -119,7 +163,10 @@ namespace OpenAI
     public struct ChatMessage
     {
         public string Role { get; set; }
+        public string Name { get; set; }
         public string Content { get; set; }
+
+        public OpenAIFunction function_call { get; set; } // Custom Added!
     }
     
     #endregion
