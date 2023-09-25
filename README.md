@@ -120,11 +120,18 @@ downloaded using UnityWebRequest until you run it out of localhost, on a server.
 ### Supported Unity Versions for WebGL Builds
 The following table shows the supported Unity versions for WebGL builds: 
 
-| Unity Version | Supported |
-| --- | --- |
-| 2022.2.8f1 | ✅ |
-| 2021.3.5f1 | ⛔ |
-| 2020.3.0f1 | ✅ |
+| Unity Version | Windows | Linux | MacOS | WebGL | Android | IOS | Oculus 2|
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2022.3.x | ✅ | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ |
+| 2021.3.x | ✅ | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ⚠️ |
+| 2020.3.x | ✅ | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ⚠️ |
+| 2019.4.x | ✅ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ⚠️ |
+
+|  |  |  |
+| --- | --- | --- |
+| ✅ = Supported | ⚠️ = Not Tested | ⛔ = Not Supported |
+
+Please report any issues you encounter with builds.
 
 ### Further Reading
 For more information on how to use the various request parameters, please refer to the OpenAI documentation: https://platform.openai.com/docs/api-reference
