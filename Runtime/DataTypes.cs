@@ -94,6 +94,7 @@ namespace OpenAI
         public float? FrequencyPenalty { get; set; } = 0;
         public Dictionary<string, string> LogitBias { get; set; }
         public string User { get; set; }
+        public List<Tool> Tools { get; set; }
     }
 
     public struct CreateChatCompletionResponse : IResponse
@@ -106,6 +107,41 @@ namespace OpenAI
         public long Created { get; set; }
         public List<ChatChoice> Choices { get; set; }
         public Usage Usage { get; set; }
+    }
+
+    public class Tool
+    {
+        public string Type { get; set; }
+        public ToolFunction Function { get; set; }
+    }
+
+    public class ToolFunction
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; }
+        public Parameters? Parameters { get; set; }
+        public string? Arguments { get; set; }
+
+    }
+
+    public struct ToolCall
+    {
+        public string Id { get; set; }
+        public string Type { get; set; }
+        public ToolFunction Function { get; set; }
+    }
+
+    public class Parameters
+    {
+        public string Type { get; set; } = "object";
+        public Dictionary<string, Property> Properties { get; set; }
+        public List<string> Required { get; set; }
+    }
+
+    public class Property
+    {
+        public string Type { get; set; }
+        public string Description { get; set; }
     }
     
     public struct ChatChoice
@@ -120,6 +156,9 @@ namespace OpenAI
     {
         public string Role { get; set; }
         public string Content { get; set; }
+        public string? Name { get; set; }
+        public List<ToolCall> ToolCalls { get; set; }
+        public string? ToolCallId { get; set; }
     }
     
     #endregion
