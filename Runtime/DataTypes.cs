@@ -106,6 +106,7 @@ namespace OpenAI
         public long Created { get; set; }
         public List<ChatChoice> Choices { get; set; }
         public Usage Usage { get; set; }
+        public string SystemFingerprint { get; set; }
     }
     
     public struct ChatChoice
