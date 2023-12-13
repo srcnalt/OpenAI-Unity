@@ -18,7 +18,7 @@ namespace OpenAI
         public string CompletionTokens { get; set; }
         public string TotalTokens { get; set; }
     }
-    
+
     public class OpenAIFile
     {
         public string Id { get; set; }
@@ -52,7 +52,7 @@ namespace OpenAI
         public string Organization { get; set; }
     }
     #endregion
-    
+
     #region Models API Data Types
     public struct ListModelsResponse: IResponse
     {
@@ -106,8 +106,9 @@ namespace OpenAI
         public long Created { get; set; }
         public List<ChatChoice> Choices { get; set; }
         public Usage Usage { get; set; }
+        public string SystemFingerprint {get;set; }
     }
-    
+
     public struct ChatChoice
     {
         public ChatMessage Message { get; set; }
@@ -121,7 +122,7 @@ namespace OpenAI
         public string Role { get; set; }
         public string Content { get; set; }
     }
-    
+
     #endregion
 
     #region Audio Transcriptions Data Types
@@ -141,14 +142,14 @@ namespace OpenAI
         public string ResponseFormat { get; set; } = AudioResponseFormat.Json;
         public float? Temperature { get; set; } = 0;
     }
-    
+
     public class CreateAudioTranscriptionsRequest: CreateAudioRequestBase
     {
         public string Language { get; set; }
     }
-    
+
     public class CreateAudioTranslationRequest: CreateAudioRequestBase { }
-    
+
     public struct CreateAudioResponse: IResponse
     {
         public ApiError Error { get; set; }
@@ -201,7 +202,7 @@ namespace OpenAI
         public float? TopP { get; set; } = 1;
         public int? N { get; set; } = 1;
     }
-    
+
     public struct CreateEditResponse: IResponse
     {
         public ApiError Error { get; set; }
@@ -226,7 +227,7 @@ namespace OpenAI
     {
         public string Prompt { get; set; }
     }
-    
+
     public sealed class CreateImageEditRequest: CreateImageRequestBase
     {
         public string Image { get; set; }
@@ -329,7 +330,7 @@ namespace OpenAI
         public string Object { get; set; }
         public List<FineTune> Data { get; set; }
     }
-    
+
     public struct ListFineTuneEventsResponse: IResponse
     {
         public ApiError Error { get; set; }
@@ -337,7 +338,7 @@ namespace OpenAI
         public string Object { get; set; }
         public List<FineTuneEvent> Data { get; set; }
     }
-    
+
     public class FineTune
     {
         public string Id { get; set; }
@@ -376,7 +377,7 @@ namespace OpenAI
         public string Input { get; set; }
         public string Model { get; set; } = ModerationModel.Latest;
     }
-    
+
     public struct CreateModerationResponse: IResponse
     {
         public ApiError Error { get; set; }
@@ -413,7 +414,7 @@ namespace OpenAI
         public const string Url = "url";
         public const string Base64Json = "b64_json";
     }
-    
+
     public static class AudioResponseFormat
     {
         public const string Json = "json";
@@ -422,7 +423,7 @@ namespace OpenAI
         public const string VerboseJson = "verbose_json";
         public const string Vtt = "vtt";
     }
-    
+
     public static class ModerationModel
     {
         public const string Stable = "text-moderation-stable";
