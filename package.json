@@ -1,5 +1,5 @@
 {
-  "name": "com.sbpark422.openai-unity",
+  "name": "com.srcnalt.openai-unity",
   "version": "0.1.15",
   "displayName": "OpenAI Unity",
   "description": "An unofficial OpenAI Unity Package that aims to help you use OpenAI API directly in Unity Game engine.",
