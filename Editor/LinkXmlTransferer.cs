@@ -8,7 +8,7 @@ namespace OpenAI
 {
     public class LinkXmlTransferer : IUnityLinkerProcessor
     {
-        private const string SearchFolder = "Packages/com.srcnalt.openai-unity/Resources";
+        private const string SearchFolder = "Packages/com.sbpark422.openai-unity/Resources";
         
         int IOrderedCallback.callbackOrder => 0;
 
