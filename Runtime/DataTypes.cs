@@ -21,6 +21,8 @@ namespace OpenAI
     
     public class OpenAIFile
     {
+        public string Prompt { get; set; }
+        public object Completion { get; set; }
         public string Id { get; set; }
         public string Object { get; set; }
         public long Bytes { get; set; }
@@ -94,6 +96,7 @@ namespace OpenAI
         public float? FrequencyPenalty { get; set; } = 0;
         public Dictionary<string, string> LogitBias { get; set; }
         public string User { get; set; }
+        public string SystemFingerprint { get; set; }
     }
 
     public struct CreateChatCompletionResponse : IResponse
@@ -106,6 +109,7 @@ namespace OpenAI
         public long Created { get; set; }
         public List<ChatChoice> Choices { get; set; }
         public Usage Usage { get; set; }
+        public string SystemFingerprint { get; set; }
     }
     
     public struct ChatChoice
@@ -287,6 +291,7 @@ namespace OpenAI
         public string Warning { get; set; }
         public string Object { get; set; }
         public List<OpenAIFile> Data { get; set; }
+        public bool HasMore { get; set; }
     }
 
     public struct DeleteResponse: IResponse
@@ -328,6 +333,7 @@ namespace OpenAI
         public string Warning { get; set; }
         public string Object { get; set; }
         public List<FineTune> Data { get; set; }
+        public object NextStartingAfter { get; set; }
     }
     
     public struct ListFineTuneEventsResponse: IResponse
