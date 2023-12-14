@@ -1,6 +1,6 @@
 {
   "name": "com.srcnalt.openai-unity",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "displayName": "OpenAI Unity",
   "description": "An unofficial OpenAI Unity Package that aims to help you use OpenAI API directly in Unity Game engine.",
   "unity": "2020.3",
