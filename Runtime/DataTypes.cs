@@ -110,20 +110,24 @@ namespace OpenAI
         public List<ChatChoice> Choices { get; set; }
         public Usage Usage { get; set; }
         public string SystemFingerprint { get; set; }
+        public string msg { get; set; }
     }
-    
+
     public struct ChatChoice
     {
         public ChatMessage Message { get; set; }
         public ChatMessage Delta { get; set; }
         public int? Index { get; set; }
         public string FinishReason { get; set; }
+        public bool logprobs {get; set; }
     }
 
     public struct ChatMessage
     {
         public string Role { get; set; }
         public string Content { get; set; }
+        public string function_call { get; set; }
+        public string tool_calls { get; set; }
     }
     
     #endregion
