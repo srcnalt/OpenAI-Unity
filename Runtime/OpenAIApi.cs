@@ -54,7 +54,6 @@ namespace OpenAI
             {
                 NamingStrategy = new CustomNamingStrategy()
             },
-            MissingMemberHandling = MissingMemberHandling.Error,
             Culture = CultureInfo.InvariantCulture
         };
         
