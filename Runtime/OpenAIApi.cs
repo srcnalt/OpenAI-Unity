@@ -54,7 +54,6 @@ namespace OpenAI
             {
                 NamingStrategy = new CustomNamingStrategy()
             },
-            MissingMemberHandling = MissingMemberHandling.Error,
             Culture = CultureInfo.InvariantCulture
         };
         
@@ -217,35 +216,7 @@ namespace OpenAI
             var path = $"{BASE_PATH}/models/{id}";
             return await DispatchRequest<OpenAIModelResponse>(path, UnityWebRequest.kHttpVerbGET);
         }
-        
-        /// <summary>
-        ///     Creates a completion for the provided prompt and parameters.
-        /// </summary>
-        /// <param name="request">See <see cref="CreateCompletionRequest"/></param>
-        /// <returns>See <see cref="CreateCompletionResponse"/></returns>
-        public async Task<CreateCompletionResponse> CreateCompletion(CreateCompletionRequest request)
-        {
-            var path = $"{BASE_PATH}/completions";
-            var payload = CreatePayload(request);
-            return await DispatchRequest<CreateCompletionResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
-        }
-        
-        /// <summary>
-        ///     Creates a chat completion request as in ChatGPT.
-        /// </summary>
-        /// <param name="request">See <see cref="CreateChatCompletionRequest"/></param>
-        /// <param name="onResponse">Callback function that will be called when stream response is updated.</param>
-        /// <param name="onComplete">Callback function that will be called when stream response is completed.</param>
-        /// <param name="token">Cancellation token to cancel the request.</param>
-        public void CreateCompletionAsync(CreateCompletionRequest request, Action<List<CreateCompletionResponse>> onResponse, Action onComplete, CancellationTokenSource token)
-        {
-            request.Stream = true;
-            var path = $"{BASE_PATH}/completions";
-            var payload = CreatePayload(request);
-            
-            DispatchRequest(path, UnityWebRequest.kHttpVerbPOST, onResponse, onComplete, token, payload);
-        }
-        
+
         /// <summary>
         ///     Creates a chat completion request as in ChatGPT.
         /// </summary>
@@ -275,18 +246,6 @@ namespace OpenAI
             DispatchRequest(path, UnityWebRequest.kHttpVerbPOST, onResponse, onComplete, token, payload);
         }
         
-        /// <summary>
-        ///     Creates a new edit for the provided input, instruction, and parameters.
-        /// </summary>
-        /// <param name="request">See <see cref="CreateEditRequest"/></param>
-        /// <returns>See <see cref="CreateEditResponse"/></returns>
-        public async Task<CreateEditResponse> CreateEdit(CreateEditRequest request)
-        {
-            var path = $"{BASE_PATH}/edits";
-            var payload = CreatePayload(request);
-            return await DispatchRequest<CreateEditResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
-        }
-
         /// <summary>
         ///     Creates an image given a prompt.
         /// </summary>

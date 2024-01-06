@@ -1,8 +1,8 @@
 {
   "name": "com.srcnalt.openai-unity",
-  "version": "0.1.16",
+  "version": "0.2.0",
   "displayName": "OpenAI Unity",
-  "description": "An unofficial OpenAI Unity Package that aims to help you use OpenAI API directly in Unity Game engine.",
+  "description": "An unofficial OpenAI Unity package that aims to help you use OpenAI API directly in Unity game engine.",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "dependencies": {
@@ -24,11 +24,6 @@
       "displayName": "ChatGPT",
       "description": "ChatGPT example using chat completion API.",
       "path": "Samples~/ChatGPT"
-    },
-    {
-      "displayName": "Text Completion Chat",
-      "description": "A simple ChatGPT like chat example using text completion API.",
-      "path": "Samples~/Text Completion Chat"
     },
     {
       "displayName": "Stream Response",

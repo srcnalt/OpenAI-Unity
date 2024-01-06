@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using OpenAI;
+using UnityEngine;
 using UnityEngine.UI;
 
-namespace OpenAI
+namespace Samples.Whisper
 {
     public class Whisper : MonoBehaviour
     {
