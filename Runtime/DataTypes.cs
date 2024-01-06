@@ -118,6 +118,7 @@ namespace OpenAI
         public ChatMessage Delta { get; set; }
         public int? Index { get; set; }
         public string FinishReason { get; set; }
+        public string Logprobs { get; set; }
     }
 
     public struct ChatMessage
