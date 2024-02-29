@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace OpenAI
 {
@@ -83,6 +84,13 @@ namespace OpenAI
     #endregion
 
     #region Chat API Data Types
+    
+    public enum ResponseFormat
+    {
+        Text,
+        JsonObject
+    }
+    
     public sealed class CreateChatCompletionRequest
     {
         public string Model { get; set; }
@@ -97,6 +105,40 @@ namespace OpenAI
         public Dictionary<string, string> LogitBias { get; set; }
         public string User { get; set; }
         public string SystemFingerprint { get; set; }
+        
+        [JsonConverter(typeof(ResponseFormatJsonConverter))]
+        public ResponseFormat? ResponseFormat { get; set; }
+    }
+    
+    public class ResponseFormatJsonConverter : JsonConverter<ResponseFormat>
+    {
+        public override void WriteJson(JsonWriter writer, ResponseFormat value, JsonSerializer serializer)
+        {
+            if (value == ResponseFormat.JsonObject)
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("type");
+                writer.WriteValue("json_object");
+                writer.WriteEndObject();
+            } else
+            {
+                writer.WriteNull();
+            }
+        }
+
+        public override ResponseFormat ReadJson(JsonReader reader, System.Type objectType, ResponseFormat existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.StartObject)
+            {
+                JObject obj = JObject.Load(reader);
+                if (obj.TryGetValue("type", out JToken typeToken) && typeToken.ToString() == "json_object")
+                {
+                    return ResponseFormat.JsonObject;
+                }
+            }
+
+            return ResponseFormat.Text;
+        }
     }
 
     public struct CreateChatCompletionResponse : IResponse
