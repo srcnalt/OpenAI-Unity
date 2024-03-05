@@ -116,6 +116,7 @@ namespace OpenAI
         public Usage Usage { get; set; }
         public string SystemFingerprint { get; set; }
         public string msg { get; set; }
+        public string Cache { get; set; }
     }
 
     public struct ChatChoice
