@@ -17,6 +17,11 @@ namespace OpenAI
         public string PromptTokens { get; set; }
         public string CompletionTokens { get; set; }
         public string TotalTokens { get; set; }
+        public string PreTokenCount { get; set; }
+        public string PreTotal { get; set; }
+        public string AdjustTotal { get; set; }
+        public string FinalTotal { get; set; }
+
     }
     
     public class OpenAIFile
