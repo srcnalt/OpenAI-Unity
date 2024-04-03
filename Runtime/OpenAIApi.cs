@@ -112,6 +112,7 @@ namespace OpenAI
                 request.SetHeaders(Configuration, ContentType.ApplicationJson);
                 
                 var asyncOperation = request.SendWebRequest();
+                bool isDone = false;
 
                 do
                 {
@@ -124,6 +125,7 @@ namespace OpenAI
                         
                         if (value.Contains("[DONE]")) 
                         {
+                            isDone = true;
                             onComplete?.Invoke();
                             break;
                         }
@@ -144,7 +146,7 @@ namespace OpenAI
                     
                     await Task.Yield();
                 }
-                while (!asyncOperation.isDone && !token.IsCancellationRequested);
+                while (!isDone);
                 
                 onComplete?.Invoke();
             }
