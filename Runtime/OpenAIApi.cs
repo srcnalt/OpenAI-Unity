@@ -126,7 +126,6 @@ namespace OpenAI
                         if (value.Contains("[DONE]")) 
                         {
                             isDone = true;
-                            onComplete?.Invoke();
                             break;
                         }
                         
