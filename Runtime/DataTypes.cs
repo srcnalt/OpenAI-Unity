@@ -18,6 +18,7 @@ namespace OpenAI
         public string CompletionTokens { get; set; }
         public string TotalTokens { get; set; }
         public string input_tokens {get;set;}
+        public string output_tokens {get;set;}
         public string PreTokenCount { get; set; }
         public string PreTotal { get; set; }
         public string AdjustTotal { get; set; }
