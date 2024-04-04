@@ -18,6 +18,11 @@ namespace OpenAI
         public string CompletionTokens { get; set; }
         public string TotalTokens { get; set; }
         public string input_tokens {get;set;}
+        public string PreTokenCount { get; set; }
+        public string PreTotal { get; set; }
+        public string AdjustTotal { get; set; }
+        public string FinalTotal { get; set; }
+
     }
     
     public class OpenAIFile
@@ -112,6 +117,7 @@ namespace OpenAI
         public Usage Usage { get; set; }
         public string SystemFingerprint { get; set; }
         public string msg { get; set; }
+        public string Cache { get; set; }
     }
 
     public struct ChatChoice
