@@ -48,7 +48,7 @@ namespace OpenAI
             {
                 BASE_PATH = basePath;
             }
-            Debug.log("OpenAI compatiable API initialized with API Key: " + configuration.ApiKey + " and Organization: " + configuration.Organization);
+            Debug.Log("OpenAI compatiable API initialized with API Key: " + configuration.ApiKey + " and Organization: " + configuration.Organization);
         }
         
         /// Used for serializing and deserializing PascalCase request object fields into snake_case format for JSON. Ignores null fields when creating JSON strings.
