@@ -114,6 +114,7 @@ namespace OpenAI
         public string Id { get; set; }
         public string Object { get; set; }
         public long Created { get; set; }
+        public string Content { get; set; }
         public List<ChatChoice> Choices { get; set; }
         public Usage Usage { get; set; }
         public string SystemFingerprint { get; set; }
