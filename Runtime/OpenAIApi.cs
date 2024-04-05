@@ -38,7 +38,7 @@ namespace OpenAI
         /// OpenAI API base path for requests.
         private const string BASE_PATH = "https://api.openai.com/v1";
 
-        public OpenAIApi(string apiKey = null, string organization = null,string basePath)
+        public OpenAIApi(string apiKey = null, string organization = null,string basePath = null)
         {
             if (apiKey != null)
             {
