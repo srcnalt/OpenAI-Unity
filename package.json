@@ -1,8 +1,8 @@
 {
   "name": "com.srcnalt.openai-unity",
-  "version": "0.1.16",
+  "version": "0.1.20",
   "displayName": "OpenAI Unity",
-  "description": "An unofficial OpenAI Unity Package that aims to help you use OpenAI API directly in Unity Game engine.",
+  "description": "An unofficial and private-use OpenAI Unity Package that aims to help you use OpenAI API directly in Unity Game engine. Additionally, this package take consideration of 3rd party OpenAI provider, as well as other model's OpenAI protocol-compatible API. This package will omit json member mismatch.",
   "unity": "2020.3",
   "unityRelease": "0f1",
   "dependencies": {
@@ -16,34 +16,7 @@
     "whisper"
   ],
   "author": {
-    "name": "Sercan (Sarge) Altundas",
-    "url": "https://github.com/srcnalt"
-  },
-  "samples": [
-    {
-      "displayName": "ChatGPT",
-      "description": "ChatGPT example using chat completion API.",
-      "path": "Samples~/ChatGPT"
-    },
-    {
-      "displayName": "Text Completion Chat",
-      "description": "A simple ChatGPT like chat example using text completion API.",
-      "path": "Samples~/Text Completion Chat"
-    },
-    {
-      "displayName": "Stream Response",
-      "description": "An example that shows how to stream text and chat completion responses.",
-      "path": "Samples~/Stream Response"
-    },
-    {
-      "displayName": "DallE",
-      "description": "A DALL.E text to image generation example.",
-      "path": "Samples~/DallE"
-    },
-    {
-      "displayName": "Whisper",
-      "description": "A Whisper audio to text generation example.",
-      "path": "Samples~/Whisper"
-    }
-  ]
+    "name": "Modified by capsuleer.me (Originally)Sercan (Sarge) Altundas",
+    "url": "https://capsuleer.me"
+  }
 }
