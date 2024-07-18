@@ -97,6 +97,12 @@ namespace OpenAI
         public Dictionary<string, string> LogitBias { get; set; }
         public string User { get; set; }
         public string SystemFingerprint { get; set; }
+        public ResponseFormat ResponseFormat { get; set; }
+    }
+
+    public class ResponseFormat
+    {
+        public string Type { get; set; } = ResponseType.Text;
     }
 
     public struct CreateChatCompletionResponse : IResponse
@@ -350,6 +356,12 @@ namespace OpenAI
     {
         public const string MultipartFormData = "multipart/form-data";
         public const string ApplicationJson = "application/json";
+    }
+    
+    public static class ResponseType
+    {
+        public const string Text = "text";
+        public const string JsonObject = "json_object";
     }
 
     public static class ImageSize
