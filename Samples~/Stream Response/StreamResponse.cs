@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace OpenAI
 {
@@ -35,7 +34,7 @@ namespace OpenAI
             
             openai.CreateChatCompletionAsync(new CreateChatCompletionRequest()
             {
-                Model = "gpt-3.5-turbo-0301",
+                Model = "gpt-3.5-turbo",
                 Messages = message,
                 Stream = true
             }, HandleResponse, null, token);
