@@ -34,7 +34,7 @@ namespace OpenAI
             
             openai.CreateChatCompletionAsync(new CreateChatCompletionRequest()
             {
-                Model = "gpt-3.5-turbo",
+                Model = "gpt-4o-mini",
                 Messages = message,
                 Stream = true
             }, HandleResponse, null, token);
