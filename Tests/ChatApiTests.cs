@@ -16,7 +16,7 @@ namespace OpenAI.Tests
         {
             var req = new CreateChatCompletionRequest
             {
-                Model = "gpt-3.5-turbo",
+                Model = "gpt-4o-mini",
                 Messages = new List<ChatMessage>()
                 {
                     new ChatMessage() { Role = "user", Content = "Hello!" }
@@ -35,7 +35,7 @@ namespace OpenAI.Tests
             
             var req = new CreateChatCompletionRequest
             {
-                Model = "gpt-3.5-turbo",
+                Model = "gpt-4o-mini",
                 Messages = new List<ChatMessage>()
                 {
                     new ChatMessage() { Role = "user", Content = "Hello!" }

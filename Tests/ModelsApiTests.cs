@@ -17,7 +17,7 @@ namespace OpenAI.Tests
         [Test]
         public async Task Retrieve_Models()
         {
-            var id = "gpt-3.5-turbo";
+            var id = "gpt-4o-mini";
             var models = await openai.RetrieveModel(id);
             Assert.AreEqual(id, models.Id);
         }
