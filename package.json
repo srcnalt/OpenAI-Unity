@@ -39,6 +39,11 @@
       "displayName": "Whisper",
       "description": "A Whisper audio to text generation example.",
       "path": "Samples~/Whisper"
+    },
+    {
+      "displayName": "Text To Speech",
+      "description": "A text to speech generation example.",
+      "path": "Samples~/Text To Speech"
     }
   ]
 }
