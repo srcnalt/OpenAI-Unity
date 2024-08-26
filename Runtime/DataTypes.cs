@@ -128,7 +128,7 @@ namespace OpenAI
         public ChatMessage Delta { get; set; }
         public int? Index { get; set; }
         public string FinishReason { get; set; }
-        public bool logprobs {get; set; }
+        public string Logprobs { get; set; }
     }
 
     public struct ChatMessage
@@ -173,63 +173,7 @@ namespace OpenAI
         public string Text { get; set; }
     }
     #endregion
-
-    #region Completions API Data Types
-    public sealed class CreateCompletionRequest
-    {
-        public string Model { get; set; }
-        public string Prompt { get; set; } = "<|endoftext|>";
-        public string Suffix { get; set; }
-        public int? MaxTokens { get; set; } = 16;
-        public float? Temperature { get; set; } = 1;
-        public float? TopP { get; set; } = 1;
-        public int N { get; set; } = 1;
-        public bool Stream { get; set; } = false;
-        public int? Logpropbs { get; set; }
-        public bool? Echo { get; set; } = false;
-        public string Stop { get; set; }
-        public float? PresencePenalty { get; set; } = 0;
-        public float? FrequencyPenalty { get; set; } = 0;
-        public int? BestOf { get; set; } = 1;
-        public Dictionary<string, string> LogitBias { get; set; }
-        public string User { get; set; }
-    }
-
-    public struct CreateCompletionResponse: IResponse
-    {
-        public ApiError Error { get; set; }
-        public string Warning { get; set; }
-        public string Id { get; set; }
-        public string Object { get; set; }
-        public long Created { get; set; }
-        public string Model { get; set; }
-        public List<Choice> Choices { get; set; }
-        public Usage Usage { get; set; }
-    }
-    #endregion
-
-    #region Edits API Data Types
-    public sealed class CreateEditRequest
-    {
-        public string Model { get; set; }
-        public string Input { get; set; } = "";
-        public string Instruction { get; set; }
-        public float? Temperature { get; set; } = 1;
-        public float? TopP { get; set; } = 1;
-        public int? N { get; set; } = 1;
-    }
     
-    public struct CreateEditResponse: IResponse
-    {
-        public ApiError Error { get; set; }
-        public string Warning { get; set; }
-        public string Object { get; set; }
-        public long Created { get; set; }
-        public List<Choice> Choices { get; set; }
-        public Usage Usage { get; set; }
-    }
-    #endregion
-
     #region Images API Data Types
     public class CreateImageRequestBase
     {

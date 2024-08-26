@@ -64,12 +64,19 @@ Here is an example of how to make a request:
 ```csharp
 private async void SendRequest()
 {
-    var openai = new OpenAIApi();
-    var request = new CreateCompletionRequest{
-        Model="text-davinci-003",
-        Prompt="Say this is a test",
+    var req = new CreateChatCompletionRequest
+    {
+        Model = "gpt-3.5-turbo",
+        Messages = new List<ChatMessage>()
+        {
+            new ChatMessage()
+            {
+                Role = "user",
+                Content = "Hello!"
+            }
+        }
     };
-    var response = await openai.CreateCompletion(request);
+    var res = await openai.CreateChatCompletion(req);
 }
 ```
 
