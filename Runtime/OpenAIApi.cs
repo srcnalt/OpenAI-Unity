@@ -96,6 +96,55 @@ namespace OpenAI
         }
         
         /// <summary>
+        ///     Dispatches an HTTP request for an audio file to the specified path with the specified method and optional payload.
+        /// </summary>
+        /// <param name="path">The path to send the request to.</param>
+        /// <param name="method">The HTTP method to use for the request.</param>
+        /// <param name="payload">An optional byte array of json payload to include in the request.</param>
+        /// <typeparam name="T">Response type of the request.</typeparam>
+        /// <returns>A Task containing the response from the request as the specified type.</returns>
+        private async Task<T> DispatchAudioRequest<T>(string path, string method, byte[] payload = null) where T: IAudioResponse
+        {
+            T data = default;
+
+            using (var request = UnityWebRequest.Put(path, payload))
+            {
+                request.method = method;
+                request.SetHeaders(Configuration, ContentType.ApplicationJson);
+                
+                var downloadHandlerAudioClip = new DownloadHandlerAudioClip(string.Empty, AudioType.MPEG);
+                request.downloadHandler = downloadHandlerAudioClip;
+
+                var asyncOperation = request.SendWebRequest();
+
+                while (!asyncOperation.isDone) await Task.Yield();
+
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+                    if(data != null) data.AudioClip = DownloadHandlerAudioClip.GetContent(request);
+                }
+                else
+                {
+                    if(data != null) data.Error = new ApiError 
+                        { Code = request.responseCode, Message = request.error, Type = request.error };
+                }
+            }
+            
+            if (data?.Error != null)
+            {
+                ApiError error = data.Error;
+                Debug.LogError($"Error Message: {error.Message}\nError Type: {error.Type}\n");
+            }
+
+            if (data?.Warning != null)
+            {
+                Debug.LogWarning(data.Warning);
+            }
+            
+            return data;
+        }
+        
+        /// <summary>
         ///     Dispatches an HTTP request to the specified path with the specified method and optional payload.
         /// </summary>
         /// <param name="path">The path to send the request to.</param>
@@ -307,6 +356,19 @@ namespace OpenAI
             var path = $"{BASE_PATH}/embeddings";
             var payload = CreatePayload(request);
             return await DispatchRequest<CreateEmbeddingsResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
+        }
+        
+        /// <summary>
+        ///     Returns speech audio for the provided text.
+        /// </summary>
+        /// <param name="request">See <see cref="CreateTextToSpeechRequest"/></param>
+        /// <returns>See <see cref="CreateTextToSpeechResponse"/></returns>
+        public async Task<CreateTextToSpeechResponse> CreateTextToSpeech(CreateTextToSpeechRequest request)
+        {
+            var path = $"{BASE_PATH}/audio/speech";
+            var payload = CreatePayload(request);
+
+            return await DispatchAudioRequest<CreateTextToSpeechResponse>(path, UnityWebRequest.kHttpVerbPOST, payload);
         }
 
         /// <summary>
